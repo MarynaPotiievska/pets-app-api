@@ -1,0 +1,31 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Pet App",
+    "description": "This is a Pet App Server.\n\nSome useful links:\n- [The Pet App repository](https://github.com/MarynaPotiievska/pets-app-api)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://pets-rest-api.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Operations about authorization"
+    },
+    {
+      "name": "Notices",
+      "description": "Operations about notices"
+    },
+    {
+      "name": "Pets",
+      "description": "Operations about pets"
+    },
+    {
+      "name": "User",
+      "description": "Operations about user"
+    }
+  ]
+}
