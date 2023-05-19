@@ -5,6 +5,8 @@
     "description": "This is a Pet App Server.\n\nSome useful links:\n- [The Pet App repository](https://github.com/MarynaPotiievska/pets-app-api)",
     "version": "1.0.0"
   },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
   "servers": [
     {
       "url": "https://pets-rest-api.onrender.com"
