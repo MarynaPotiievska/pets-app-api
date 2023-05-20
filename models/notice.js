@@ -4,8 +4,13 @@ const noticeSchema = new Schema({
   category: {
     type: String,
     enum: ["sell", "lost-found", "for-free"],
-   
   },
+
+  title: {
+    type: String,
+    required: true,
+  },
+
   name: {
     type: String,
     required: [true, "Name is required"],
