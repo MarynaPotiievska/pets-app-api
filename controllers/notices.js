@@ -1,19 +1,29 @@
 const { ctrlWrapper } = require("../helpers");
-const {Notice} = require("../models/notice");
-const HttpError = require('../helpers/HttpError')
-
-
+const { Notice } = require("../models/notice");
+const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
-  const result = await Notice.find();
-  res.status(200).json(result);
+  const { category, title } = req.query;
+
+  if (category) {
+    res.status(200).json(await Notice.find({ category }));
+  }
+
+  if (title) {
+    res.status(200).json(await Notice.find({ title }));
+  }
+
+  if (category && title) {
+    res.status(200).json(await Notice.find({ category, title }));
+  }
+
 };
 
 const getNoticeById = async (req, res) => {
-  const { noticeId} = req.params;
+  const { noticeId } = req.params;
   const result = await Notice.findById(noticeId);
   if (!result) {
-    throw HttpError (404, "Not found");
+    throw HttpError(404, "Not found");
   }
   res.status(200).json(result);
 };
@@ -25,23 +35,19 @@ const getFavorite = async (req, res) => {};
 const removeFromFavorite = async (req, res) => {};
 
 const addNotice = async (req, res) => {
-// const {_id: owner } = req.user;
-const {category} = req.params;
-const noticeDate = req.body;
+  // const {_id: owner } = req.user;
+  // const { category } = req.params;
+  const noticeDate = req.body;
 
-if(!req.file) {
-  throw HttpError (400, "The file must be downloaded")
-}
-const data = req.file
-? {...noticeDate, category, fileURL: req.file.path}
-: {...noticeDate, category}
+  if (!req.file) {
+    throw HttpError(400, "The file must be downloaded");
+  }
+  const data = req.file
+    ? { ...noticeDate, fileURL: req.file.path }
+    : { ...noticeDate};
 
-const result = await Notice.create(data);
+  const result = await Notice.create(data);
 
-
-
-
- 
   res.status(201).json(result);
 };
 
@@ -54,7 +60,7 @@ const removeNotice = async (req, res) => {
     throw HttpError(404, "Not found");
   }
   res.status(200).json({
-    message: "contact deleted",
+    message: "Notice deleted",
   });
 };
 

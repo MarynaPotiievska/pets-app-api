@@ -1,8 +1,9 @@
 const express = require('express')
 
 const ctrl = require("../../controllers/notices");
-const upload = require('../../middlewares/upload')
 
+const {validateBody, upload} = require('../../middlewares')
+const {schema} = require("../../models/notice")
 
 const router = express.Router()
 
@@ -16,7 +17,7 @@ router.get('/favorite', ctrl.getFavorite) // для вибірки усіх об
 
 router.delete('/:noticeId', ctrl.removeFromFavorite) // для видалення оголошення з обраних
 
-router.post('/', upload.single('file'), ctrl.addNotice) // для створення оголошення 
+router.post('/', upload.single('file'), validateBody(schema), ctrl.addNotice) // для створення оголошення 
 
 router.get('/:userId', ctrl.getNoticesByUser) // для отримання оголошень, створених авторизованим користувачем
 

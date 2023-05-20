@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { ValidationChain, body} = require('express-validator')
 
 const noticeSchema = new Schema({
   category: {
@@ -53,17 +54,31 @@ const noticeSchema = new Schema({
     minlength: 8,
     maxlength: 120,
   },
-  favorite: {
-    type: Boolean,
-    default: false, // якщо не передали це поле
-  },
+  // favorite: {
+  //   type: Boolean,
+  //   default: false, // якщо не передали це поле
+  // },
 });
 // owner: {
 //     type: Schema.Types.ObjectId,
 //     ref: "user",
 //   },
-const schemas = {};
+const schema = new ValidationChain([
+
+body("title").isString().notEmpty(),
+body("name").isString().notEmpty().isLength({min:2, max: 16}),
+body("date").isString().notEmpty().matches(/^\d{2}([.])\d{2}([.])\d{4}$/),
+body("breed").isString().notEmpty().isLength({min:2, max: 16}),
+ body("category").oneOf(["sell", "lost-found", "for-free"]).notEmpty(),
+body("sex").isString().notEmpty().oneOf(["male", "female"]),
+body('comments').isString().isLength({min:8, max: 120}),
+
+body("location").isString().notEmpty(),
+body('price').notEmpty().isNumeric().isLength({min:1}).withMessage('Price must be higher then 0'),
+
+
+]);
 
 const Notice = model("notice", noticeSchema);
 
-module.exports = { Notice, schemas };
+module.exports = { Notice, schema };
