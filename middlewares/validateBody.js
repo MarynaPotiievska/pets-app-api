@@ -13,11 +13,12 @@
              
 
           const errors = validationResult(req);
+          console.log(errors)
           if (errors.isEmpty()) {
             return next();
           }
       
-          next(HttpError(400, "Bad request"))
+          next(HttpError(400, `${errors.errors[0].msg} in ${errors.errors[0].path}`))
         };
       };
 

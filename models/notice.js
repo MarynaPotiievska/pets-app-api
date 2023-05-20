@@ -63,22 +63,22 @@ const noticeSchema = new Schema({
 //     type: Schema.Types.ObjectId,
 //     ref: "user",
 //   },
-const schema = new ValidationChain([
+// const schema = new ValidationChain([
 
-body("title").isString().notEmpty(),
-body("name").isString().notEmpty().isLength({min:2, max: 16}),
-body("date").isString().notEmpty().matches(/^\d{2}([.])\d{2}([.])\d{4}$/),
-body("breed").isString().notEmpty().isLength({min:2, max: 16}),
- body("category").oneOf(["sell", "lost-found", "for-free"]).notEmpty(),
-body("sex").isString().notEmpty().oneOf(["male", "female"]),
-body('comments').isString().isLength({min:8, max: 120}),
+// body("title").isString().notEmpty(),
+// body("name").isString().notEmpty().isLength({min:2, max: 16}),
+// body("date").isString().notEmpty().matches(/^\d{2}([.])\d{2}([.])\d{4}$/),
+// body("breed").isString().notEmpty().isLength({min:2, max: 16}),
+//  body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
+// body("sex").isString().notEmpty().isIn(["male", "female"]),
+// body('comments').isString().isLength({min:8, max: 120}),
+// body("location").isString().notEmpty(),
+// body('price').notEmpty().isNumeric().isLength({min:1}).withMessage('Price must be higher then 0'),
 
-body("location").isString().notEmpty(),
-body('price').notEmpty().isNumeric().isLength({min:1}).withMessage('Price must be higher then 0'),
 
-
-]);
+// ]);
 
 const Notice = model("notice", noticeSchema);
 
-module.exports = { Notice, schema };
+module.exports = { Notice };
+// , schema
