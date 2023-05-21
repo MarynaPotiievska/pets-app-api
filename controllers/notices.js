@@ -33,7 +33,7 @@ const getNoticeById = async (req, res) => {
     throw HttpError(404);
   }
   res.status(200).json(result);
-  console.log(req.params);
+  
 };
 
 const addToFavorite = async (req, res) => {

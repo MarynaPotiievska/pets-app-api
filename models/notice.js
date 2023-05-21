@@ -56,8 +56,7 @@ const noticeSchema = new Schema({
   },
   favorite: {
     type: Array,
-    default: [], 
-    
+    default: [],
   },
 });
 // owner: {
@@ -75,7 +74,6 @@ const noticeSchema = new Schema({
 // body('comments').isString().isLength({min:8, max: 120}),
 // body("location").isString().notEmpty(),
 // body('price').notEmpty().isNumeric().isLength({min:1}).withMessage('Price must be higher then 0'),
-
 
 // ]);
 
