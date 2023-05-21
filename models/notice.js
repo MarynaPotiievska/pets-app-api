@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { ValidationChain, body} = require('express-validator')
+// const { ValidationChain, body} = require('express-validator')
 
 const noticeSchema = new Schema({
   category: {
@@ -54,10 +54,11 @@ const noticeSchema = new Schema({
     minlength: 8,
     maxlength: 120,
   },
-  // favorite: {
-  //   type: Boolean,
-  //   default: false, // якщо не передали це поле
-  // },
+  favorite: {
+    type: Array,
+    default: [], 
+    
+  },
 });
 // owner: {
 //     type: Schema.Types.ObjectId,

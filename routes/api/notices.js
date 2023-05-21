@@ -8,7 +8,7 @@ const { body} = require('express-validator')
 
 const router = express.Router()
 
-router.get('/', ctrl.getNoticesByCategory) // для вибірки по категорії + по заголовку /:category
+router.get('/:category', ctrl.getNoticesByCategory) // для вибірки по категорії + по заголовку 
 
 router.get('/:noticeId', ctrl.getNoticeById) // для знвходження по id
 
