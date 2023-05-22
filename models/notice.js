@@ -41,7 +41,6 @@ const noticeSchema = new Schema({
     required: true,
     validate: {
       validator: function (value) {
-        // Regular expression to validate city and region format
         const locationRegex = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
         return locationRegex.test(value);
       },
@@ -53,7 +52,12 @@ const noticeSchema = new Schema({
     required: function () {
       return this.category === "sell";
     },
-    min: [1, "Price must be higher then 0"],
+    validate: {
+      validator: function (value) {
+        return value > 0;
+      },
+      message: "Price must be greater than 0.",
+    },
   },
   comments: {
     type: String,
