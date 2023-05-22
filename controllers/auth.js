@@ -2,7 +2,6 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { User } = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const gravatar = require("gravatar");
 
 const { SECRET_KEY } = process.env;
 
@@ -15,13 +14,11 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarURL = gravatar.url(email);
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    avatarURL,
-    message: "Congrats! Youre registration is success",
+    isNewUser: "Congrats! Youre registration is success",
   });
 
   res.status(201).json({
@@ -62,7 +59,7 @@ const updateUser = async (req, res) => {};
 
 const logout = async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: "" });
+  await User.findByIdAndUpdate(_id, { token: null });
 
   res.status(204).json({
     status: "204 No Content",

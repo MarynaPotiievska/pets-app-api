@@ -1,13 +1,28 @@
 const express = require("express");
 const ctrl = require("../../controllers/auth");
 const { validateBody, authenticate } = require("../../middlewares");
-const { schemas } = require("../../models/user");
+//const { schema } = require("../../models/user");
+const { body } = require("express-validator");
 
 const router = express.Router();
 
-router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
+router.post(
+  "/register",
+  validateBody([
+    body("email").isString().notEmpty().emailRegexp,
+    body("password").isString().notEmpty().isLength({ min: 6 }),
+  ]),
+  ctrl.register
+);
 
-router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
+router.post(
+  "/login",
+  validateBody([
+    body("email").isString().notEmpty().emailRegexp,
+    body("password").isString().notEmpty().isLength({ min: 6 }),
+  ]),
+  ctrl.login
+);
 
 router.put("/:userId", ctrl.updateUser);
 
