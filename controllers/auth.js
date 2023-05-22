@@ -61,12 +61,13 @@ const login = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const { userId } = req.params;
-  //const { _id: owner } = req.user;
+
   const result = await User.findByIdAndUpdate(
-    { userId },
-    //{ _id: id, owner },
-    { ...req.body },
-    { new: true }
+    { _id: userId },
+    { ...req.body, avatarURL: req.file.path },
+    {
+      new: true,
+    }
   );
   console.log(result);
   if (result === null) {

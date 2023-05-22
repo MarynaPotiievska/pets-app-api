@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
-//const { ValidationChain, body } = require("express-validator");
-const Joi = require("joi");
+const { body } = require("express-validator");
+//const Joi = require("joi");
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const dateRegexp = /^\d{2}.\d{2}.\d{4}$/;
@@ -48,15 +48,15 @@ const userSchema = new Schema(
 
 userSchema.post("save", handleMongooseError);
 
-// const schema = new ValidationChain([
-//   body("email").isString().notEmpty().emailRegexp,
-//   body("password").isString().notEmpty().isLength({ min: 6 }),
-// ]);
+const schema = [
+  body("email").isString().notEmpty().matches(emailRegexp),
+  body("password").isString().notEmpty().isLength({ min: 6 }),
+];
 
-const schema = Joi.object({
-  password: Joi.string().required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-});
+// const schema = Joi.object({
+//   password: Joi.string().required(),
+//   email: Joi.string().pattern(emailRegexp).required(),
+// });
 
 const User = model("user", userSchema);
 
