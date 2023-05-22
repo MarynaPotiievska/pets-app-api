@@ -7,32 +7,41 @@ const getNoticesByCategory = async (req, res) => {
   const { category } = req.params;
   const { title = null } = req.query;
 
-  const query = {
-    category,
-    title,
-  };
-  const isInQuery = (query) => {
-    return Object.entries(query).reduce((acc, [key, value]) => {
-      if (Boolean(value) === true) {
-        const mapping = { [key]: value };
-        return Object.assign(acc, mapping);
-      }
-      return acc;
-    }, {});
-  };
+  // const query = {
+  //   category,
+  //   title,
+  // };
+let query = {};
 
-  const noticesList = await Notice.find(isInQuery(query)); //, "-owner",
-  res.json(noticesList);
+
+(category && title) ? query = {category, title} : (title ? query.title=title : !!category && (query.category = category))
+ 
+   res.json(await Notice.find(query))
+
+
+  // const isInQuery = (query) => {
+  //   return Object.entries(query).reduce((acc, [key, value]) => {
+  //     if (Boolean(value) === true) {
+  //       const mapping = { [key]: value };
+  //       return Object.assign(acc, mapping);
+  //     }
+  //     return acc;
+  //   }, {});
+  // };
+
+  // const noticesList = await Notice.find(isInQuery(query)); //, "-owner",
+  // res.json(noticesList);
 };
 
 const getNoticeById = async (req, res) => {
+  // const {_id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findById(noticeId);
+  const result = await Notice.findById(noticeId); // const result = await Notice.findOne({_id: noticeId, owner});
 
   if (!result) {
     throw HttpError(404);
   }
-  res.status(200).json(result);
+  res.json(result);
   
 };
 
@@ -73,14 +82,14 @@ const removeFromFavorite = async (req, res) => {
 };
 
 const addNotice = async (req, res) => {
-  const { _id: owner } = req.user;
+  // const { _id: owner } = req.user;
 
   const noticeData = req.body;
 
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
-  const data = { ...noticeData, owner, fileURL: req.file.path };
+  const data = { ...noticeData, fileURL: req.file.path }; // ,owner
 
   const result = await Notice.create(data);
 
@@ -96,8 +105,9 @@ const getNoticesByUser = async (req, res) => {
 };
 
 const removeNotice = async (req, res) => {
+  // const {_id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findByIdAndRemove(noticeId);
+  const result = await Notice.findByIdAndRemove({_id: noticeId}); // owner
   if (!result) {
     throw HttpError(404, "Not found");
   }
