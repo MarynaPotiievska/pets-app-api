@@ -2,7 +2,7 @@ const express = require("express");
 
 const ctrl = require("../../controllers/notices");
 
-const { validateBody, upload } = require("../../middlewares");
+const { validateBody, upload, isValidId } = require("../../middlewares");
 // const {schema} = require("../../models/notice")
 const { body } = require("express-validator");
 
@@ -12,13 +12,13 @@ router.get("/category/:category", ctrl.getNoticesByCategory); // для вибі
 
 router.get("/favorite", ctrl.getFavorite); // для вибірки усіх обраних оголошення авторизованого користувача
 
-router.get("/:noticeId", ctrl.getNoticeById); // для знвходження по id
+router.get("/:noticeId", isValidId, ctrl.getNoticeById); // для знаходження по id
 
 router.get("/user/:userId", ctrl.getNoticesByUser); // для отримання оголошень, створених авторизованим користувачем
 
-router.patch("/:noticeId", ctrl.addToFavorite); // для додавання в обрані
+router.patch("/:noticeId", isValidId, ctrl.addToFavorite); // для додавання в обрані
 
-router.delete("/favorite/:noticeId", ctrl.removeFromFavorite); // для видалення оголошення з обраних
+router.delete("/favorite/:noticeId", isValidId, ctrl.removeFromFavorite); // для видалення оголошення з обраних
 
 router.post(
   "/",
@@ -44,6 +44,6 @@ router.post(
   ctrl.addNotice
 ); // для створення оголошення
 
-router.delete("/:noticeId", ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
+router.delete("/:noticeId", isValidId, ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
 
 module.exports = router;

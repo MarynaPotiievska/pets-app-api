@@ -107,9 +107,9 @@ const getNoticesByUser = async (req, res) => {
 const removeNotice = async (req, res) => {
   // const {_id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findByIdAndRemove({_id: noticeId}); // owner
+  const result = await Notice.findOneAndRemove(noticeId); // owner
   if (!result) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404);
   }
   res.status(200).json({
     message: "Notice deleted",
