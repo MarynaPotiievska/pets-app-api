@@ -39,6 +39,14 @@ const noticeSchema = new Schema({
   location: {
     type: String,
     required: true,
+    validate: {
+      validator: function (value) {
+        // Regular expression to validate city and region format
+        const locationRegex = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
+        return locationRegex.test(value);
+      },
+      message: 'Location should be in the format of "City, Region".'
+    }
   },
   price: {
     type: Number,
