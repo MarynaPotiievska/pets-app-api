@@ -19,6 +19,10 @@ const register = async (req, res) => {
     ...req.body,
     password: hashPassword,
     isNewUser: "Congrats! Youre registration is success",
+    name: "",
+    birthday: "",
+    phone: "",
+    avatarURL: "",
   });
 
   res.status(201).json({
@@ -55,11 +59,28 @@ const login = async (req, res) => {
   });
 };
 
-const updateUser = async (req, res) => {};
+const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  //const { _id: owner } = req.user;
+  const result = await User.findByIdAndUpdate(
+    { userId },
+    //{ _id: id, owner },
+    { ...req.body },
+    { new: true }
+  );
+  console.log(result);
+  if (result === null) {
+    next(HttpError(404, "User not found"));
+  }
+  if (!result) {
+    HttpError(404, "User not found");
+  }
+  res.status(200).json(result);
+};
 
 const logout = async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: null });
+  await User.findByIdAndUpdate(_id, { token: "" });
 
   res.status(204).json({
     status: "204 No Content",
