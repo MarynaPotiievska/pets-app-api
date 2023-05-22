@@ -11,12 +11,13 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: (req, file) => {
-    const folder = req.params.userId ? "pet_app/users" : "pet_app/pets";
+    
+    const folder = req.params.userId ? "pet_app/users" : "pet_app/pets";    
     const publicId = folder + file.filename;
-    return { folder, allowedFormats: ["jpg", "png"], public_id: publicId };
-  },
+    return {folder, allowedFormats: ["jpg", "png"], public_id: publicId}
+  }
 });
 
-const upload = multer({ storage, limits: { fileSize: 300000 } });
+const upload = multer({ storage, limits: { fileSize: 300000 }});
 
 module.exports = upload;
