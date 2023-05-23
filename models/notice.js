@@ -71,13 +71,14 @@ const noticeSchema = new Schema(
       type: Array,
       default: [],
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
   { versionKey: false }
 );
-// owner: {
-//     type: Schema.Types.ObjectId,
-//     ref: "user",
-//   },
+
 const schema = [
   body("title").isString().notEmpty(),
     body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),

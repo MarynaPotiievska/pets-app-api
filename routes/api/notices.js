@@ -2,26 +2,27 @@ const express = require("express");
 
 const ctrl = require("../../controllers/notices");
 
-const { validateBody, upload, isValidId } = require("../../middlewares");
+const { validateBody, upload, isValidId, authenticate } = require("../../middlewares");
 const {schema} = require("../../models/notice")
-const { body } = require("express-validator");
+
 
 const router = express.Router();
 
 router.get("/category/:category", ctrl.getNoticesByCategory); // для вибірки по категорії + по заголовку
 
-router.get("/favorite", ctrl.getFavorite); // для вибірки усіх обраних оголошення авторизованого користувача
+router.get("/favorite", authenticate, ctrl.getFavorite); // для вибірки усіх обраних оголошення авторизованого користувача
 
-router.get("/:noticeId", isValidId, ctrl.getNoticeById); // для знаходження по id
+router.get("/:noticeId", authenticate, isValidId, ctrl.getNoticeById); // для знаходження по id
 
-router.get("/user/:userId", ctrl.getNoticesByUser); // для отримання оголошень, створених авторизованим користувачем
+router.get("/user/:userId", 
+authenticate, ctrl.getNoticesByUser); // для отримання оголошень, створених авторизованим користувачем
 
-router.patch("/:noticeId", isValidId, ctrl.addToFavorite); // для додавання в обрані
+router.patch("/:noticeId", authenticate, isValidId, ctrl.addToFavorite); // для додавання в обрані
 
-router.delete("/favorite/:noticeId", isValidId, ctrl.removeFromFavorite); // для видалення оголошення з обраних
+router.delete("/favorite/:noticeId", authenticate, isValidId, ctrl.removeFromFavorite); // для видалення оголошення з обраних
 
 router.post(
-  "/",
+  "/", authenticate, 
   upload.single("file"),
   validateBody(schema),
   //   [
@@ -46,6 +47,6 @@ router.post(
   ctrl.addNotice
 ); // для створення оголошення
 
-router.delete("/:noticeId", isValidId, ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
+router.delete("/:noticeId", authenticate, isValidId, ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
 
 module.exports = router;

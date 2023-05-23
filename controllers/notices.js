@@ -1,6 +1,7 @@
 const { ctrlWrapper } = require("../helpers");
 const { Notice } = require("../models/notice");
 
+
 const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
@@ -40,9 +41,9 @@ const getNoticesByCategory = async (req, res) => {
 };
 
 const getNoticeById = async (req, res) => {
-  // const {_id: owner } = req.user;
+   const {_id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findById(noticeId); // const result = await Notice.findOne({_id: noticeId, owner});
+  const result = await Notice.findOne({_id: noticeId, owner});
 
   if (!result) {
     throw HttpError(404);
@@ -51,38 +52,34 @@ const getNoticeById = async (req, res) => {
 };
 
 const addToFavorite = async (req, res) => {
-  // const { _id: owner } = req.user;
-  const { noticeId } = req.params;
-  const notice = await Notice.findById(noticeId);
-
-  notice.favorite.push(req.user._id); // Додати owner до масиву favorite
-
-  const result = await notice.save();
-  res.json(result);
-  // const { noticeId } = req.params;
+   const { _id: owner } = req.user;
+    const { noticeId } = req.params;
   // const notice = await Notice.findById(noticeId);
 
-  // const result = await Notice.findOneAndUpdate(
-  //   { _id: noticeId },
-  //   { favorite: [...notice.favorite] },  // ,owner
-  //   {
-  //     new: true,
-  //   }
-  // );
-  // res.json(result);
+  const result = await Notice.findOneAndUpdate(
+    { _id: noticeId },
+    { $push: { favorite: noticeId } },
+    
+    owner, 
+    {
+      new: true,
+    }
+  );
+  res.json(result);
 };
 
 const getFavorite = async (req, res) => {
-  // const { _id: owner } = req.user;
-
-  const noticesList = await Notice.find({ favorite: req.user._id }); // Фільтрувати за наявністю owner в масиві favorite
-  res.json(noticesList);
-  // const noticesList = await Notice.find();
-  // const result = noticesList.filter((notice) =>
-  //   notice.favorite.includes(owner)
-  // );
-
-  // res.json(result);
+   const { _id: owner } = req.user;
+   // const { noticeId} = req.params;
+   // console.log(noticeId)
+  
+  const noticesList = await Notice.find({  owner });
+   console.log(noticesList)
+  
+  const result = noticesList.filter((notice) =>
+    notice.favorite.includes(notice._id.toString()));
+     res.json(result)
+     
 };
 
 const removeFromFavorite = async (req, res) => {
@@ -106,14 +103,14 @@ const removeFromFavorite = async (req, res) => {
 };
 
 const addNotice = async (req, res) => {
-  // const { _id: owner } = req.user;
+   const { _id: owner } = req.user;
 
-  const noticeData = req.body;
+  
 
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
-  const data = { ...noticeData, fileURL: req.file.path }; // ,owner
+  const data = { ...req.body, fileURL: req.file.path, owner }; 
 
   const result = await Notice.create(data);
 
@@ -122,8 +119,8 @@ const addNotice = async (req, res) => {
 
 const getNoticesByUser = async (req, res) => {
   const { _id: owner } = req.user;
-  const noticesList = await Notice.find();
-  const result = noticesList.filter((notice) => notice.owner === owner);
+  const noticesList = await Notice.find({ owner: owner._id });
+  const result = noticesList.filter((notice) => notice.owner.equals(owner));
 
   res.json(result);
 };
