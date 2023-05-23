@@ -71,7 +71,7 @@ const getFavorite = async (req, res) => {
   
 
   const noticesList = await Notice.find();
-  console.log(owner);
+ 
 
   const result = noticesList.filter((notice) =>
     notice.favorite.includes(owner)
@@ -84,15 +84,14 @@ const removeFromFavorite = async (req, res) => {
   const { noticeId } = req.params;
   
   const notice = await Notice.findById({_id: noticeId, owner});
-console.log(notice)
-  const index = notice.favorite.indexOf(req.user._id);
-  console.log(index) // Знаходимо індекс елемента в масиві
+
+  const index = notice.favorite.indexOf(req.user._id); // Знаходимо індекс елемента в масиві
   if (index !== -1) {
     notice.favorite.splice(index, 1); // Видаляємо елемент з масиву
   }
 
-  const result = await notice.save();
-  console.log(result)
+   await notice.save();
+  
   res.status(204);
 
  
