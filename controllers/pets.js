@@ -2,12 +2,16 @@ const { Pet } = require("../models/pet");
 const { ctrlWrapper, HttpError } = require("../helpers");
 
 const addPet = async (req, res) => {
-  // const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
 
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
-  const result = await Pet.create({ ...req.body, photoURL: req.file.path });
+  const result = await Pet.create({
+    ...req.body,
+    photoURL: req.file.path,
+    owner,
+  });
 
   res.status(201).json(result);
 };
@@ -27,4 +31,3 @@ module.exports = {
   addPet: ctrlWrapper(addPet),
   removePet: ctrlWrapper(removePet),
 };
-/* { ...req.body, owner } */
