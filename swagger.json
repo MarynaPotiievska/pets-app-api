@@ -9,7 +9,7 @@
   "produces": ["application/json"],
   "servers": [
     {
-      "url": "https://pets-rest-api.onrender.com"
+      "url": "https://pets-rest-api.onrender.com/api"
     }
   ],
   "tags": [
@@ -99,6 +99,40 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      }
+    },
+    "/notices/category/{category}": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get notices by category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "type": "string",
+            "description": "on of: sell, lost-found, for-free"
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "type": "string",
+            "description": "title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/Notice"
+                  
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

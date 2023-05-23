@@ -94,7 +94,9 @@ const removeFromFavorite = async (req, res) => {
 
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
-
+if(!req.body) {
+  throw HttpError(400, "No body content")
+}
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }

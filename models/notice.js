@@ -6,10 +6,7 @@ const noticeSchema = new Schema(
     category: {
       type: String,
       enum: ["sell", "lost-found", "for-free"],
-    },
-    title: {
-      type: String,
-      required: true,
+      required: [true, "Choose category"],
     },
     name: {
       type: String,
@@ -79,7 +76,7 @@ const noticeSchema = new Schema(
   { versionKey: false }
 );
 
-const schema = [
+const schemas = [
   body("title").isString().notEmpty(),
     body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),
     body("date")
@@ -101,4 +98,4 @@ const schema = [
 
 const Notice = model("notice", noticeSchema);
 
-module.exports = { Notice, schema };
+module.exports = { Notice, schemas };
