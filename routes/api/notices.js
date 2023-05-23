@@ -22,21 +22,9 @@ router.get("/user/:userId", authenticate, ctrl.getNoticesByUser); // для от
 
 router.patch("/:noticeId", authenticate, isValidId, ctrl.addToFavorite); // для додавання в обрані
 
-router.delete(
-  "/favorite/:noticeId",
-  authenticate,
-  isValidId,
-  ctrl.removeFromFavorite
-); // для видалення оголошення з обраних
+router.delete("/favorite/:noticeId", authenticate, isValidId, ctrl.removeFromFavorite); // для видалення оголошення з обраних
 
-router.post(
-  "/",
-  authenticate,
-  upload.single("file"),
-  validateBody(schema),
-
-  ctrl.addNotice
-); // для створення оголошення
+router.post("/", authenticate, upload.single("file"), validateBody(schema), ctrl.addNotice); // для створення оголошення
 
 router.delete("/:noticeId", authenticate, isValidId, ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
 
