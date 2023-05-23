@@ -1,12 +1,11 @@
 const { ctrlWrapper } = require("../helpers");
 const { Notice } = require("../models/notice");
 
-
 const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
   const { category } = req.params;
-  const {  title = null } = req.query; // page = 1, limit = 20,
+  const { title = null } = req.query; // page = 1, limit = 20,
   // const skip = (page - 1) * limit;
 
   // const query = {
@@ -21,10 +20,9 @@ const getNoticesByCategory = async (req, res) => {
     ? (query.title = title)
     : !!category && (query.category = category);
 
-  res
-    .json(await Notice.find(query))
-    // .skip(skip)
-    // .limit(limit);
+  res.json(await Notice.find(query));
+  // .skip(skip)
+  // .limit(limit);
 
   // const isInQuery = (query) => {
   //   return Object.entries(query).reduce((acc, [key, value]) => {
@@ -41,9 +39,9 @@ const getNoticesByCategory = async (req, res) => {
 };
 
 const getNoticeById = async (req, res) => {
-   const {_id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findOne({_id: noticeId, owner});
+  const result = await Notice.findOne({ _id: noticeId, owner });
 
   if (!result) {
     throw HttpError(404);
@@ -52,15 +50,15 @@ const getNoticeById = async (req, res) => {
 };
 
 const addToFavorite = async (req, res) => {
-   const { _id: owner } = req.user;
-    const { noticeId } = req.params;
+  const { _id: owner } = req.user;
+  const { noticeId } = req.params;
   // const notice = await Notice.findById(noticeId);
 
   const result = await Notice.findOneAndUpdate(
     { _id: noticeId },
-    { $push: { favorite: noticeId } },
-    
-    owner, 
+    { $push: { favorite: owner } },
+
+    owner,
     {
       new: true,
     }
@@ -69,48 +67,44 @@ const addToFavorite = async (req, res) => {
 };
 
 const getFavorite = async (req, res) => {
-   const { _id: owner } = req.user;
-   // const { noticeId} = req.params;
-   // console.log(noticeId)
+  const { _id: owner } = req.user;
   
-  const noticesList = await Notice.find({  owner });
-   console.log(noticesList)
-  
+
+  const noticesList = await Notice.find();
+  console.log(owner);
+
   const result = noticesList.filter((notice) =>
-    notice.favorite.includes(notice._id.toString()));
-     res.json(result)
-     
+    notice.favorite.includes(owner)
+  );
+  res.json(result);
 };
 
 const removeFromFavorite = async (req, res) => {
+    const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const notice = await Notice.findById(noticeId);
-
-  const index = notice.favorite.indexOf(req.user._id); // Знаходимо індекс елемента в масиві
+  
+  const notice = await Notice.findById({_id: noticeId, owner});
+console.log(notice)
+  const index = notice.favorite.indexOf(req.user._id);
+  console.log(index) // Знаходимо індекс елемента в масиві
   if (index !== -1) {
     notice.favorite.splice(index, 1); // Видаляємо елемент з масиву
   }
 
   const result = await notice.save();
-  res.json(result);
-  // const { _id: owner } = req.user;
-  // const { noticeId } = req.params;
-  // const notice = await Notice.findById(noticeId);
-  // notice.favorite = notice.favorite.filter((fav) => fav !== owner);
-  // await notice.save();
+  console.log(result)
+  res.status(204);
 
-  // res.status(204);
+ 
 };
 
 const addNotice = async (req, res) => {
-   const { _id: owner } = req.user;
-
-  
+  const { _id: owner } = req.user;
 
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
-  const data = { ...req.body, fileURL: req.file.path, owner }; 
+  const data = { ...req.body, fileURL: req.file.path, owner };
 
   const result = await Notice.create(data);
 
@@ -126,13 +120,13 @@ const getNoticesByUser = async (req, res) => {
 };
 
 const removeNotice = async (req, res) => {
-  // const {_id: owner } = req.user;
+   const {_id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findOneAndRemove(noticeId); // owner
+  const result = await Notice.findOneAndRemove({_id: noticeId, owner}); 
   if (!result) {
     throw HttpError(404);
   }
-  res.status(200).json({
+  res.json({
     message: "Notice deleted",
   });
 };
