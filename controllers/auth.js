@@ -29,7 +29,6 @@ const register = async (req, res) => {
     email: newUser.email,
     password: newUser.password,
   });
-  console.log(newUser);
 };
 
 const login = async (req, res) => {
