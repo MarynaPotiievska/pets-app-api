@@ -52,7 +52,6 @@ const getNoticeById = async (req, res) => {
 const addToFavorite = async (req, res) => {
   const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  // const notice = await Notice.findById(noticeId);
 
   const result = await Notice.findOneAndUpdate(
     { _id: noticeId },
@@ -68,10 +67,8 @@ const addToFavorite = async (req, res) => {
 
 const getFavorite = async (req, res) => {
   const { _id: owner } = req.user;
-  
 
   const noticesList = await Notice.find();
- 
 
   const result = noticesList.filter((notice) =>
     notice.favorite.includes(owner)
@@ -80,21 +77,19 @@ const getFavorite = async (req, res) => {
 };
 
 const removeFromFavorite = async (req, res) => {
-    const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  
-  const notice = await Notice.findById({_id: noticeId, owner});
+
+  const notice = await Notice.findById({ _id: noticeId, owner });
 
   const index = notice.favorite.indexOf(req.user._id); // Знаходимо індекс елемента в масиві
   if (index !== -1) {
     notice.favorite.splice(index, 1); // Видаляємо елемент з масиву
   }
 
-   await notice.save();
-  
-  res.status(204);
+  await notice.save();
 
- 
+  res.status(204);
 };
 
 const addNotice = async (req, res) => {
@@ -119,9 +114,9 @@ const getNoticesByUser = async (req, res) => {
 };
 
 const removeNotice = async (req, res) => {
-   const {_id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findOneAndRemove({_id: noticeId, owner}); 
+  const result = await Notice.findOneAndRemove({ _id: noticeId, owner });
   if (!result) {
     throw HttpError(404);
   }
