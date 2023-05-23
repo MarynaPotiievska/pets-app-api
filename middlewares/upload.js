@@ -10,8 +10,7 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: (req, file) => {
-    
+  params: (req, file) => {    
     const folder = req.params.userId ? "pet_app/users" : "pet_app/pets";    
     const publicId = folder + file.filename;
     return {folder, allowedFormats: ["jpg", "png"], public_id: publicId}
