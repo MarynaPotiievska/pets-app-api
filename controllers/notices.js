@@ -5,7 +5,7 @@ const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
   const { category } = req.params;
-  const {  title = null } = req.query; // page = 1, limit = 20,
+  const { title = null } = req.query; // page = 1, limit = 20,
   // const skip = (page - 1) * limit;
 
   // const query = {
@@ -20,10 +20,9 @@ const getNoticesByCategory = async (req, res) => {
     ? (query.title = title)
     : !!category && (query.category = category);
 
-  res
-    .json(await Notice.find(query))
-    // .skip(skip)
-    // .limit(limit);
+  res.json(await Notice.find(query));
+  // .skip(skip)
+  // .limit(limit);
 
   // const isInQuery = (query) => {
   //   return Object.entries(query).reduce((acc, [key, value]) => {
@@ -40,9 +39,9 @@ const getNoticesByCategory = async (req, res) => {
 };
 
 const getNoticeById = async (req, res) => {
-  // const {_id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findById(noticeId); // const result = await Notice.findOne({_id: noticeId, owner});
+  const result = await Notice.findOne({ _id: noticeId, owner });
 
   if (!result) {
     throw HttpError(404);
@@ -51,69 +50,55 @@ const getNoticeById = async (req, res) => {
 };
 
 const addToFavorite = async (req, res) => {
-  // const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const notice = await Notice.findById(noticeId);
 
-  notice.favorite.push(req.user._id); // Додати owner до масиву favorite
+  const result = await Notice.findOneAndUpdate(
+    { _id: noticeId },
+    { $push: { favorite: owner } },
 
-  const result = await notice.save();
+    owner,
+    {
+      new: true,
+    }
+  );
   res.json(result);
-  // const { noticeId } = req.params;
-  // const notice = await Notice.findById(noticeId);
-
-  // const result = await Notice.findOneAndUpdate(
-  //   { _id: noticeId },
-  //   { favorite: [...notice.favorite] },  // ,owner
-  //   {
-  //     new: true,
-  //   }
-  // );
-  // res.json(result);
 };
 
 const getFavorite = async (req, res) => {
-  // const { _id: owner } = req.user;
+  const { _id: owner } = req.user;
 
-  const noticesList = await Notice.find({ favorite: req.user._id }); // Фільтрувати за наявністю owner в масиві favorite
-  res.json(noticesList);
-  // const noticesList = await Notice.find();
-  // const result = noticesList.filter((notice) =>
-  //   notice.favorite.includes(owner)
-  // );
+  const noticesList = await Notice.find();
 
-  // res.json(result);
+  const result = noticesList.filter((notice) =>
+    notice.favorite.includes(owner)
+  );
+  res.json(result);
 };
 
 const removeFromFavorite = async (req, res) => {
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const notice = await Notice.findById(noticeId);
+
+  const notice = await Notice.findById({ _id: noticeId, owner });
 
   const index = notice.favorite.indexOf(req.user._id); // Знаходимо індекс елемента в масиві
   if (index !== -1) {
     notice.favorite.splice(index, 1); // Видаляємо елемент з масиву
   }
 
-  const result = await notice.save();
-  res.json(result);
-  // const { _id: owner } = req.user;
-  // const { noticeId } = req.params;
-  // const notice = await Notice.findById(noticeId);
-  // notice.favorite = notice.favorite.filter((fav) => fav !== owner);
-  // await notice.save();
+  await notice.save();
 
-  // res.status(204);
+  res.status(204);
 };
 
 const addNotice = async (req, res) => {
-  // const { _id: owner } = req.user;
-
-  const noticeData = req.body;
+  const { _id: owner } = req.user;
 
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
-  const data = { ...noticeData, fileURL: req.file.path }; // ,owner
+  const data = { ...req.body, fileURL: req.file.path, owner };
 
   const result = await Notice.create(data);
 
@@ -122,20 +107,20 @@ const addNotice = async (req, res) => {
 
 const getNoticesByUser = async (req, res) => {
   const { _id: owner } = req.user;
-  const noticesList = await Notice.find();
-  const result = noticesList.filter((notice) => notice.owner === owner);
+  const noticesList = await Notice.find({ owner: owner._id });
+  const result = noticesList.filter((notice) => notice.owner.equals(owner));
 
   res.json(result);
 };
 
 const removeNotice = async (req, res) => {
-  // const {_id: owner } = req.user;
+  const { _id: owner } = req.user;
   const { noticeId } = req.params;
-  const result = await Notice.findOneAndRemove(noticeId); // owner
+  const result = await Notice.findOneAndRemove({ _id: noticeId, owner });
   if (!result) {
     throw HttpError(404);
   }
-  res.status(200).json({
+  res.json({
     message: "Notice deleted",
   });
 };
