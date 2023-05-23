@@ -29,5 +29,77 @@
       "name": "User",
       "description": "Operations about user"
     }
-  ]
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user info",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Notice": {
+        "type": "object",
+        "xml": {
+          "name": "notice"
+        }
+      },
+      "Pet": {
+        "type": "object",
+        "xml": {
+          "name": "pet"
+        }
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "$ref": "#/components/schemas/User"
+          },
+          "pet": {
+            "type": "object",
+            "$ref": "#/components/schemas/Pet"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }
