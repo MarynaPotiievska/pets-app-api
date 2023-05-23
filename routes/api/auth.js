@@ -1,15 +1,18 @@
-const express = require('express')
-
+const express = require("express");
 const ctrl = require("../../controllers/auth");
+const { validateBody, authenticate, upload } = require("../../middlewares");
+const { schema } = require("../../models/user");
 
-const router = express.Router()
+// const { body } = require("express-validator");
 
-router.post('/register', ctrl.register)
+const router = express.Router();
 
-router.post('/login', ctrl.login)
+router.post("/register", validateBody(schema), ctrl.register);
 
-router.put('/:userId', ctrl.updateUser)
+router.post("/login", validateBody(schema), ctrl.login);
 
-router.post('/logout', ctrl.logout)
+router.put("/:userId", authenticate, upload.single("file"), validateBody(schema), ctrl.updateUser);
 
-module.exports = router
+router.post("/logout", authenticate, ctrl.logout);
+
+module.exports = router;
