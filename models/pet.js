@@ -36,7 +36,7 @@ const petSchema = new Schema(
     },
     photoURL: {
       type: String,
-      default: "",
+      required: [true, "Photo pet is required"],
     },
     owner: {
       type: Schema.Types.ObjectId,
