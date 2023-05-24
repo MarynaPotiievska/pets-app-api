@@ -18,11 +18,7 @@ const register = async (req, res) => {
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    isNewUser: "Congrats! Youre registration is success",
-    name: "",
-    birthday: "",
-    phone: "",
-    avatarURL: "",
+    isNewUser: true,
   });
 
   res.status(201).json({
@@ -68,12 +64,9 @@ const updateUser = async (req, res) => {
       new: true,
     }
   );
-  console.log(result);
-  if (result === null) {
-    next(HttpError(404, "User not found"));
-  }
+
   if (!result) {
-    HttpError(404, "User not found");
+    throw HttpError(404, "User not found");
   }
   res.status(200).json(result);
 };
@@ -82,9 +75,7 @@ const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
 
-  res.status(204).json({
-    status: "204 No Content",
-  });
+  res.status(204);
 };
 
 module.exports = {
