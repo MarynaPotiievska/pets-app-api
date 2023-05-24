@@ -6,10 +6,11 @@ const noticeSchema = new Schema(
     category: {
       type: String,
       enum: ["sell", "lost-found", "for-free"],
+      required: [true, "Choose category"],
     },
     title: {
       type: String,
-      required: true,
+      required: true
     },
     name: {
       type: String,

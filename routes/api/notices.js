@@ -18,7 +18,7 @@ router.get("/:noticeId", isValidId, ctrl.getNoticeById); // для знаход�
 
 router.get("/user/:userId", authenticate, ctrl.getNoticesByUser); // для отримання оголошень, створених авторизованим користувачем
 
-router.patch("/:noticeId", authenticate, isValidId, ctrl.addToFavorite); // для додавання в обрані
+router.patch("/favorite/:noticeId", authenticate, isValidId, ctrl.addToFavorite); // для додавання в обрані
 
 router.delete(
   "/favorite/:noticeId",
