@@ -80,7 +80,7 @@ const noticeSchema = new Schema(
   { versionKey: false }
 );
 
-const schemas = [
+const schema = [
   body("title").isString().notEmpty(),
     body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),
     body("date")
@@ -102,4 +102,4 @@ const schemas = [
 
 const Notice = model("notice", noticeSchema);
 
-module.exports = { Notice, schemas };
+module.exports = { Notice, schema };

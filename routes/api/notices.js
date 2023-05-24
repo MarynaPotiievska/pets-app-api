@@ -6,7 +6,7 @@ const {
   isValidId,
   authenticate,
 } = require("../../middlewares");
-const { schemas } = require("../../models/notice");
+const { schema } = require("../../models/notice");
 
 const router = express.Router();
 
@@ -31,7 +31,7 @@ router.post(
   "/",
   authenticate,
   upload.single("file"),
-  validateBody(schemas),
+  validateBody(schema),
   ctrl.addNotice
 ); // для створення оголошення
 
