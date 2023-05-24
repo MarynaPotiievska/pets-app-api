@@ -33,9 +33,7 @@
   "paths": {
     "/user": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get user info",
         "security": [
           {
@@ -92,6 +90,61 @@
             "$ref": "#/components/schemas/Pet"
           }
         }
+      },
+      "GetNoticeResponse": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Category of notice",
+            "example": "sell or lost-found, or for-free"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of notice",
+            "example": "Looking my pets"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "example": "Adel"
+          },
+          "date": {
+            "type": "string",
+            "description": "Pet's birthday",
+            "example": "10.02.2023"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "Сhihuahua"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet's location",
+            "example": "Kiev, Kiev region"
+          },
+          "price": {
+            "type": "number",
+            "description": "Price for pet",
+            "example": "2000"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet's sex",
+            "example": "female"
+          },
+          "fileURL": {
+            "type": "string",
+            "description": "Pet's img URL",
+            "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comments about pet",
+            "example": "The puppy is kind, has special features in the matter"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -103,8 +156,9 @@
     },
     "/notices/category/{category}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": ["Notice"],
         "summary": "Get notices by category",
+        "operationId": "getNoticesByCategory",
         "parameters": [
           {
             "in": "path",
@@ -122,12 +176,252 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Successful operation",
             "content": {
-              "application/json":{
-                "schema":{
-                  "$ref":"#/components/schemas/Notice"
-                  
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNotice/Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The file must be downloaded"
+          }
+        }
+      }
+    },
+    "/notice": {
+      "post": {
+        "tags": ["Notice"],
+        "summary": "Add new notice by category",
+        "operationId": "addNotice",
+        "security": [{ "Bearer": [] }],
+        "description": "Adds a new pet notice to the specified category",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pets photo": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of notice",
+                    "required": true
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Pet's name",
+                    "required": true
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Pet's birthday",
+                    "required": true
+                  },
+                  "breed": {
+                    "type": "string",
+                    "description": "Pet's breed",
+                    "required": true
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Pet's location",
+                    "required": true
+                  },
+                  "price": {
+                    "type": "string",
+                    "description": "Price for pet",
+                    "required": true
+                  },
+                  "sex": {
+                    "type": "string",
+                    "description": "Pet's sex",
+                    "required": true
+                  },
+                  "comments": {
+                    "type": "string",
+                    "description": "Comments about pet",
+                    "required": true
+                  }
+                },
+                "responses": {
+                  "201": {
+                    "description": "Notice created successfully",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "$ref": "#/components/schemas/GetNotice/Response"
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "The file must be downloaded"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notice/{noticeId}": {
+      "get": {
+        "tags": ["Notice"],
+        "summary": "Get notice by ID",
+        "security": [{ "Bearer": [] }],
+        "operationId": "getNoticeById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "noticeId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Get information about the notice by id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNotice/Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Notice"],
+        "summary": "Delete notice by ID",
+        "security": [{ "Bearer": [] }],
+        "operationId": "removeNotice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "noticeId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Delete the notice with the specified ID"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        }
+      }
+    },
+    "/notice/favorite": {
+      "get": {
+        "tags": ["Notice"],
+        "summary": "Get favorite notices",
+        "security": [{ "Bearer": [] }],
+        "operationId": "getFavorite",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetNotice/Response"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No favorite notice found"
+          }
+        }
+      }
+    },
+    "/notice/favorite/{noticeId}": {
+      "patch": {
+        "tags": ["Notice"],
+        "summary": "Adds the notice with the specified ID to the user's favorites list",
+        "security": [{ "Bearer": [] }],
+        "operationId": "addToFavorite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "noticeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Notice"],
+        "summary": "Remove the notice with the specified ID to the user's favorites list",
+        "security": [{ "Bearer": [] }],
+        "operationId": "removeFromFavorite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "noticeId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ID of the notice to remove from favorite"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/notice/user/{userId}": {
+      "get": {
+        "tags": ["Notice"],
+        "summary": "Get notice of the authorized user",
+        "operationId": "getNoticesByUser",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Get information about the user by id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetNotice/Response"
                 }
               }
             }
