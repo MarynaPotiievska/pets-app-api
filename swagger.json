@@ -392,6 +392,131 @@
         }
       }
     },
+    "/pets": {
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Add your pet",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Pet"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "photo": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Pet"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "photoURL": {
+                          "type": "string",
+                          "format": "uri",
+                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/petsundefined.jpg"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid value in name"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "The file must be downloaded"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
+    "/pets/{petId}": {
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete a pet card",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Delete with the pet ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The card has been deleted"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/user": {
       "get": {
         "tags": ["User"],
@@ -500,8 +625,37 @@
       },
       "Pet": {
         "type": "object",
-        "xml": {
-          "name": "pet"
+        "required": ["name", "birthday", "breed", "photo"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "Dolly"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Pet's birthday",
+            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "example": "12.03.2020"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "spitz"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comments about pet",
+            "minLength": 8,
+            "maxLength": 120,
+            "example": "Тhis is my favorite dog"
+          }
         }
       },
       "GetNoticeResponse": {
