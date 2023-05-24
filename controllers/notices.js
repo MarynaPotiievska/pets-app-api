@@ -94,9 +94,7 @@ const removeFromFavorite = async (req, res) => {
 
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
-if(!req.body) {
-  throw HttpError(400, "No body content")
-}
+
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
@@ -120,7 +118,7 @@ const removeNotice = async (req, res) => {
   const { noticeId } = req.params;
   const result = await Notice.findOneAndRemove({ _id: noticeId, owner });
   if (!result) {
-    throw HttpError(404);
+    throw HttpError(404, "Notice not found");
   }
   res.json({
     message: "Notice deleted",
