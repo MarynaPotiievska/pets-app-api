@@ -53,7 +53,7 @@ const addToFavorite = async (req, res) => {
   const { _id: owner } = req.user;
   const { noticeId } = req.params;
 
-  const result = await Notice.findOneAndUpdate(
+  await Notice.findOneAndUpdate(
     { _id: noticeId },
     { $push: { favorite: owner } },
 
@@ -62,7 +62,9 @@ const addToFavorite = async (req, res) => {
       new: true,
     }
   );
-  res.json(result);
+  res.json({
+    message: "Notice was successfully added to favorite"
+  });
 };
 
 const getFavorite = async (req, res) => {

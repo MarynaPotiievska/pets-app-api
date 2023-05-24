@@ -8,6 +8,10 @@ const noticeSchema = new Schema(
       enum: ["sell", "lost-found", "for-free"],
       required: [true, "Choose category"],
     },
+    title: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: [true, "Name is required"],
