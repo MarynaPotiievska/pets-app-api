@@ -496,6 +496,7 @@
         ],
         "parameters": [
           {
+            "in": "path",
             "name": "petId",
             "required": true,
             "schema": {
