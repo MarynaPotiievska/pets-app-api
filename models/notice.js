@@ -77,7 +77,7 @@ const schema = [
   body("date")
     .isString()
     .notEmpty()
-    .matches(/^\d{2}([.])\d{2}([.])\d{4}$/),
+    .matches(dateRegexp),
   body("breed").isString().notEmpty().isLength({ min: 2, max: 16 }),
   body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
   body("sex").isString().notEmpty().isIn(["male", "female"]),
@@ -85,6 +85,7 @@ const schema = [
   body("location")
     .isString()
     .notEmpty()
+    .matches(locationRegex)
     .withMessage('Location should be in the format of "City, Region".'),
   body("price")
     .if(body("category").equals("sell"))
