@@ -60,6 +60,7 @@ const updateUser = async (req, res) => {
   const result = await User.findByIdAndUpdate(
     { _id: userId },
     { ...req.body, avatarURL: req.file.path },
+    "-isNewUser, -password",
     {
       new: true,
     }
@@ -75,7 +76,7 @@ const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
 
-  res.status(204);
+  res.status(204).end();
 };
 
 module.exports = {
