@@ -44,12 +44,7 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       required: true,
-      validate: {
-        validator: function (value) {
-          return locationRegex.test(value);
-        },
-        message: 'Location should be in the format of "City, Region".',
-      },
+      match: locationRegex,
     },
     price: {
       type: Number,
@@ -87,7 +82,10 @@ const schema = [
   body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
   body("sex").isString().notEmpty().isIn(["male", "female"]),
   body("comments").isString().isLength({ min: 8, max: 120 }),
-  body("location").isString().notEmpty(),
+  body("location")
+    .isString()
+    .notEmpty()
+    .withMessage('Location should be in the format of "City, Region".'),
   body("price")
     .if(body("category").equals("sell"))
     .notEmpty()
