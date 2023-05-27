@@ -31,6 +31,172 @@
     }
   ],
   "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authentification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistranionResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authentification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/updateUser/{userId}": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update user's information",
+        "operationId": "updateUser",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "update information about the user by id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  {
+                    "type": "object",
+                    "required": ["avatar"],
+                    "properties": {
+                      "avatar": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/UserResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "avatarURL": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout of the authorized user",
+        "operationId": "logout",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
     "/notices/category/{category}": {
       "get": {
         "tags": ["Notices"],
@@ -449,7 +615,6 @@
               }
             }
           },
-
           "400": {
             "description": "Bad request",
             "content": {
@@ -549,8 +714,67 @@
     "schemas": {
       "User": {
         "type": "object",
-        "xml": {
-          "name": "user"
+        "required": ["email", "birthday"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "pattern": "^[a-zA-Z]+$",
+            "example": "Robert"
+          },
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "user's birthday",
+            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "example": "12.03.2020"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "pattern": "^[+]380?[-\\s]?([5|6|9][0|3|5|6|8|9])?[-.\\s]?[0-9]{7}$",
+            "example": 380000000000
+          },
+          "city": {
+            "type": "string",
+            "description": "user's city",
+            "pattern": "^[a-zA-Z ]+$",
+            "example": "Kyiv"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "example": "qwerty123"
+          },
+          "isNewUser": {
+            "type": "string"
+          }
+        }
+      },
+      "Authentification": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "example": "qwerty123"
+          }
         }
       },
       "Notice": {
@@ -631,7 +855,6 @@
           "name": {
             "type": "string",
             "description": "Pet's name",
-
             "minLength": 2,
             "maxLength": 16,
             "example": "Dolly"
@@ -645,7 +868,6 @@
           "breed": {
             "type": "string",
             "description": "Pet's breed",
-
             "minLength": 2,
             "maxLength": 16,
             "example": "spitz"
@@ -657,6 +879,51 @@
             "maxLength": 120,
             "example": "Тhis is my favorite dog"
           }
+        }
+      },
+      "RegistranionResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "userId": {
+            "type": "string",
+            "description": "user's id",
+            "example": 1234567890
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "token for authorization"
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/User"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "AvatarURL": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          ]
         }
       },
       "GetNoticeResponse": {
