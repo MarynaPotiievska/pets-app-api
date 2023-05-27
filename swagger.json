@@ -889,13 +889,18 @@
           "_id": {
             "type": "string",
             "description": "user's id",
-            "example": 1234567890
+            "example": "646b2ec12353789047670bbe"
           }
         }
       },
       "LoginResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "user's id",
+            "example": "646b2ec12353789047670bbe"
+          },
           "token": {
             "type": "string",
             "description": "token for authorization"
