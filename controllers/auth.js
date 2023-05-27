@@ -48,6 +48,7 @@ const login = async (req, res) => {
 
   res.json({
     token,
+    id: user._id,
   });
 };
 
@@ -64,7 +65,7 @@ const updateUser = async (req, res) => {
       avatarURL: req.file.path,
       isNewUser: value,
     },
-    "-isNewUser, -password",    
+    "-isNewUser, -password",
     { new: true }
   );
 
