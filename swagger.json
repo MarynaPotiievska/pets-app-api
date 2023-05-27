@@ -5,8 +5,13 @@
     "description": "This is a Pet App Server.\n\nSome useful links:\n- [The Pet App repository](https://github.com/MarynaPotiievska/pets-app-api)",
     "version": "1.0.0"
   },
-  "consumes": ["application/json", "multipart/form-data"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "servers": [
     {
       "url": "https://pets-rest-api.onrender.com/api"
@@ -979,12 +984,17 @@
                   "type": "string",
                   "format": "uri",
                   "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
-                },
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
                 "_id": {
                   "type": "string",
                   "description": "notice's id",
                   "example": "646b2ec12353789047670bbe"
-                 },
+                },
                 "phone": {
                   "type": "string",
                   "description": "user's phone",
