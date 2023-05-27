@@ -413,7 +413,7 @@
                   {
                     "type": "object",
                     "properties": {
-                      "photo": {
+                      "file": {
                         "type": "string",
                         "format": "binary"
                       }
@@ -437,7 +437,7 @@
                     {
                       "type": "object",
                       "properties": {
-                        "photoURL": {
+                        "fileURL": {
                           "type": "string",
                           "format": "uri",
                           "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/petsundefined.jpg"
@@ -626,7 +626,7 @@
       },
       "Pet": {
         "type": "object",
-        "required": ["name", "birthday", "breed", "photo"],
+        "required": ["name", "birthday", "breed", "file"],
         "properties": {
           "name": {
             "type": "string",

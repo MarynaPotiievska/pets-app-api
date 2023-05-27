@@ -9,7 +9,7 @@ const addPet = async (req, res) => {
   }
   const result = await Pet.create({
     ...req.body,
-    photoURL: req.file.path,
+    fileURL: req.file.path,
     owner,
   });
 

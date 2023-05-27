@@ -34,7 +34,7 @@ const petSchema = new Schema(
       minLength: 8,
       maxLength: 120,
     },
-    photoURL: {
+    fileURL: {
       type: String,
       default: "",
     },
@@ -62,6 +62,7 @@ const schemas = [
     .notEmpty()
     .isLength({ min: 2, max: 16 })
     .matches(BREED_REGEX),
+  body(" comments").isString().isLength({ min: 8, max: 120 }),
 ];
 
 const Pet = model("pet", petSchema);
