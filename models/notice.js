@@ -1,6 +1,9 @@
 const { Schema, model } = require("mongoose");
 const { body } = require("express-validator");
 
+const dateRegexp = /^\d{2}([.])\d{2}([.])\d{4}$/;
+const locationRegex = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
+
 const noticeSchema = new Schema(
   {
     category: {
@@ -10,7 +13,7 @@ const noticeSchema = new Schema(
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
@@ -20,7 +23,7 @@ const noticeSchema = new Schema(
     },
     date: {
       type: String,
-      match: /^\d{2}([.])\d{2}([.])\d{4}$/,
+      match: dateRegexp,
       required: [true, "Date is required"],
     },
     breed: {
@@ -41,13 +44,7 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       required: true,
-      validate: {
-        validator: function (value) {
-          const locationRegex = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
-          return locationRegex.test(value);
-        },
-        message: 'Location should be in the format of "City, Region".',
-      },
+      match: locationRegex,
     },
     price: {
       type: Number,
@@ -56,12 +53,6 @@ const noticeSchema = new Schema(
       },
 
       min: [1, "Price must be higher then 0"],
-      // validate: {
-      //   validator: function (value) {
-      //     return value > 0;
-      //   },
-      //   message: "Price must be greater than 0.",
-      // },
     },
     comments: {
       type: String,
@@ -82,22 +73,26 @@ const noticeSchema = new Schema(
 
 const schema = [
   body("title").isString().notEmpty(),
-    body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),
-    body("date")
-      .isString()
-      .notEmpty()
-      .matches(/^\d{2}([.])\d{2}([.])\d{4}$/),
-    body("breed").isString().notEmpty().isLength({ min: 2, max: 16 }),
-    body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
-    body("sex").isString().notEmpty().isIn(["male", "female"]),
-    body("comments").isString().isLength({ min: 8, max: 120 }),
-    body("location").isString().notEmpty(),
-    body("price")
+  body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),
+  body("date")
+    .isString()
+    .notEmpty()
+    .matches(dateRegexp),
+  body("breed").isString().notEmpty().isLength({ min: 2, max: 16 }),
+  body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
+  body("sex").isString().notEmpty().isIn(["male", "female"]),
+  body("comments").isString().isLength({ min: 8, max: 120 }),
+  body("location")
+    .isString()
+    .notEmpty()
+    .matches(locationRegex)
+    .withMessage('Location should be in the format of "City, Region".'),
+  body("price")
     .if(body("category").equals("sell"))
-      .notEmpty()
-      .isNumeric()
-      .isLength({ min: 1 })
-      .withMessage("Price must be higher then 0"),
+    .notEmpty()
+    .isNumeric()
+    .isLength({ min: 1 })
+    .withMessage("Price must be higher then 0"),
 ];
 
 const Notice = model("notice", noticeSchema);

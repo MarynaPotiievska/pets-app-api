@@ -39,9 +39,9 @@ const getNoticesByCategory = async (req, res) => {
 };
 
 const getNoticeById = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { noticeId } = req.params;
-  const result = await Notice.findOne({ _id: noticeId, owner });
+  // const { _id: owner } = req.user;
+  const { noticeId: _id } = req.params;
+  const result = await Notice.findById(_id).populate("owner", "phone").exec();
 
   if (!result) {
     throw HttpError(404);
