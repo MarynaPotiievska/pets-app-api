@@ -33,7 +33,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -67,7 +69,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -101,7 +105,9 @@
     },
     "/auth/{userId}": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Update user's information",
         "operationId": "updateUser",
         "security": [
@@ -131,7 +137,9 @@
                   },
                   {
                     "type": "object",
-                    "required": ["avatar"],
+                    "required": [
+                      "avatar"
+                    ],
                     "properties": {
                       "avatar": {
                         "type": "string",
@@ -179,7 +187,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Logout of the authorized user",
         "operationId": "logout",
         "security": [
@@ -199,7 +209,9 @@
     },
     "/notices/category/{category}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices by category",
         "operationId": "getNoticesByCategory",
         "parameters": [
@@ -242,7 +254,9 @@
     },
     "/notices": {
       "post": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Add new notice by category",
         "operationId": "addNotice",
         "security": [
@@ -335,7 +349,9 @@
     },
     "/notices/{noticeId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notice by ID",
         "operationId": "getNoticeById",
         "parameters": [
@@ -380,7 +396,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Delete notice by ID",
         "security": [
           {
@@ -414,7 +432,9 @@
     },
     "/notices/favorite": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get user's favorite notices",
         "security": [
           {
@@ -444,7 +464,9 @@
     },
     "/notices/favorite/{noticeId}": {
       "patch": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Adds userID to the notice's favorite array",
         "security": [
           {
@@ -488,7 +510,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Remove userID from the notice's favorite array",
         "security": [
           {
@@ -522,7 +546,9 @@
     },
     "/notices/user/{userId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices of the authorized user",
         "operationId": "getNoticesByUser",
         "security": [
@@ -560,7 +586,9 @@
     },
     "/pets": {
       "post": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Add your pet",
         "security": [
           {
@@ -606,7 +634,7 @@
                         "photoURL": {
                           "type": "string",
                           "format": "uri",
-                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/petsundefined.jpg"
+                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                         }
                       }
                     }
@@ -652,7 +680,9 @@
     },
     "/pets/{petId}": {
       "delete": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Delete a pet card",
         "security": [
           {
@@ -685,7 +715,9 @@
     },
     "/user": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get user info",
         "security": [
           {
@@ -714,7 +746,10 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["email", "birthday"],
+        "required": [
+          "email",
+          "birthday"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -744,14 +779,17 @@
           "city": {
             "type": "string",
             "description": "user's city",
-            "pattern": "^[a-zA-Z ]+$",
+            "pattern": "^[a-zA-Z]+$",
             "example": "Kyiv"
           }
         }
       },
       "Authentification": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -774,7 +812,11 @@
           "category": {
             "type": "string",
             "description": "Category of notice",
-            "enum": ["sell", "lost-found", "for-free"],
+            "enum": [
+              "sell",
+              "lost-found",
+              "for-free"
+            ],
             "example": "sell or lost-found, or for-free"
           },
           "title": {
@@ -817,7 +859,10 @@
           "sex": {
             "type": "string",
             "description": "Pet's sex",
-            "enum": ["male", "female"],
+            "enum": [
+              "male",
+              "female"
+            ],
             "example": "female"
           },
           "comments": {
@@ -841,7 +886,12 @@
       },
       "Pet": {
         "type": "object",
-        "required": ["name", "birthday", "breed", "photo"],
+        "required": [
+          "name",
+          "birthday",
+          "breed",
+          "photo"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -899,23 +949,21 @@
         }
       },
       "UserResponse": {
-        "type": "array",
-        "items": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/User"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "AvatarURL": {
-                  "type": "string",
-                  "format": "uri"
-                }
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/User"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "AvatarURL": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://res.cloudinary.com/dboarinns/image/upload/v1685180233/pet_app/users/pet_app/user.jpg"
               }
             }
-          ]
-        }
+          }
+        ]
       },
       "GetNoticeResponse": {
         "type": "array",
@@ -930,7 +978,7 @@
                 "fileURL": {
                   "type": "string",
                   "format": "uri",
-                  "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
+                  "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                 }
               }
             }
@@ -941,12 +989,39 @@
         "type": "object",
         "properties": {
           "user": {
-            "type": "object",
-            "$ref": "#/components/schemas/User"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserResponse"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "isNewUser": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            ]
           },
           "pet": {
-            "type": "object",
-            "$ref": "#/components/schemas/Pet"
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Pet"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "photoURL": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
+                    }
+                  }
+                }
+              ]
+            }
           }
         }
       }
