@@ -9,10 +9,10 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.registerSchema), ctrl.login);
 
-router.put(
+router.patch(
   "/:userId",
   authenticate,
-  upload.single("file"),
+  upload.single("avatar"),
   validateBody(schemas.updateSchema),
   ctrl.updateUser
 );
