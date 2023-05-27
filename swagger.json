@@ -99,7 +99,7 @@
         }
       }
     },
-    "/auth/updateUser/{userId}": {
+    "/auth/{userId}": {
       "patch": {
         "tags": ["Auth"],
         "summary": "Update user's information",
@@ -739,22 +739,13 @@
             "type": "string",
             "description": "user's phone",
             "pattern": "^[+]380?[-\\s]?([5|6|9][0|3|5|6|8|9])?[-.\\s]?[0-9]{7}$",
-            "example": 380000000000
+            "example": "+380990000000"
           },
           "city": {
             "type": "string",
             "description": "user's city",
             "pattern": "^[a-zA-Z ]+$",
             "example": "Kyiv"
-          },
-          "password": {
-            "type": "string",
-            "description": "user's password",
-            "pattern": "^[a-zA-Z0-9]+$",
-            "example": "qwerty123"
-          },
-          "isNewUser": {
-            "type": "string"
           }
         }
       },
