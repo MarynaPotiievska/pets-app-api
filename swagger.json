@@ -979,6 +979,16 @@
                   "type": "string",
                   "format": "uri",
                   "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "notice's id",
+                  "example": "646b2ec12353789047670bbe"
+                 },
+                "phone": {
+                  "type": "string",
+                  "description": "user's phone",
+                  "example": "+380990000001"
                 }
               }
             }
