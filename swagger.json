@@ -437,6 +437,9 @@
                     {
                       "type": "object",
                       "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
                         "fileURL": {
                           "type": "string",
                           "format": "uri",
