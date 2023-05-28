@@ -6,6 +6,4 @@ const router = express.Router();
 
 router.get("/", ctrl.getNews);
 
-router.get("/title", ctrl.getNewsByTitle);
-
 module.exports = router;
