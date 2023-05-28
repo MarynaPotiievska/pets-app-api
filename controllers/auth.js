@@ -65,9 +65,8 @@ const updateUser = async (req, res) => {
       avatarURL: req.file.path,
       isNewUser: value,
     },
-    "-isNewUser, -password",
     { new: true }
-  );
+  ).select("-isNewUser -password")
 
   if (!result) {
     throw HttpError(404, "User not found");
