@@ -1,31 +1,38 @@
-## GoIT Node.js Course Template Homework
+# Your Pets
 
-Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
-Форк створить репозиторій на вашому http://github.com
+This is the Pet App project, it is part of the back end of the our team project. It is software and hardware part of the service to create a platform for pet lovers.
 
-Додайте ментора до колаборації
+## Documentation
 
-Для кожної домашньої роботи створюйте свою гілку.
+Use the documentation [https://pets-rest-api.onrender.com/api/docs/#/] to make sure you're writing the right code to get the response you need
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+## Features
 
-Кожна нова гілка для др повинна робитися з master
+- Make a request to create an account and log in to manage your favorite pets.
+- Make a request to view a collection of pets available for adoption.
+- Make a request to search pets based on criterias.
+- Make a request to submit adoption requests for pets you're interested in.
+- Make a request to update the user.
+- And other requests.
 
-Після того, як ви закінчили виконувати домашнє завдання у своїй гілці, необхідно зробити пулл-реквест (PR). Потім додати ментора для рев'ю коду. Тільки після того, як ментор заапрувить PR, ви можете виконати мердж гілки з домашнім завданням у майстер.
+## Technologies Used
 
-Уважно читайте коментарі ментора. Виправте зауваження та зробіть коміт у гілці з домашнім завданням. Зміни підтягнуться у PR автоматично після того, як ви відправите коміт з виправленнями на github
-Після виправлення знову додайте ментора на рев'ю коду.
+- Node.js
+- React Routers
+- Express and Express validator
+- Mongoose
+- MongoDB Compass
+- Cloudinary
+- Multer
 
-- При здачі домашньої роботи є посилання на PR
-- JS-код чистий та зрозумілий, для форматування використовується Prettier
+## Installation
 
-### Команди:
+1. Clone this repository to your local machine using git clone
+2. Run on terminal `npm install` to install the dependencies.
+3. Run on terminal `npm start` to start the development server > Database connection successful.
 
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+## Usage
+
+> You can use our server for your App [https://pets-rest-api.onrender.com/]
+> Connect the MongoDB Compass.
+> Start the Postman agent, enter in to your Workspace, enter http://localhost:3001/api/..., specify the request body and parameters. Click the send button and get your response.
