@@ -1,6 +1,5 @@
 const { ctrlWrapper } = require("../helpers");
 const { Notice } = require("../models/notice");
-
 const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
@@ -56,26 +55,21 @@ const removeFromFavorite = async (req, res) => {
   if (!notice) {
     throw HttpError(404, "Notice not found in favorites");
   }
-  const index = notice.favorite.indexOf(req.user._id); 
+  const index = notice.favorite.indexOf(req.user._id);
   if (index !== -1) {
-    notice.favorite.splice(index, 1); 
+    notice.favorite.splice(index, 1);
   }
-
   await notice.save();
-
   res.status(204);
 };
 
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
-
   if (!req.file) {
     throw HttpError(400, "The file must be downloaded");
   }
   const data = { ...req.body, fileURL: req.file.path, owner };
-
   const result = await Notice.create(data);
-
   res.status(201).json(result);
 };
 
@@ -83,7 +77,6 @@ const getNoticesByUser = async (req, res) => {
   const { _id: owner } = req.user;
   const noticesList = await Notice.find({ owner });
   const result = noticesList.filter((notice) => notice.owner.equals(owner));
-
   res.json(result);
 };
 

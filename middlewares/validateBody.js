@@ -7,12 +7,10 @@ const validateBody = (validations) => {
       const result = await validation.run(req);
       if (result.errors.length) break;
     }
-
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       return next();
     }
-
     next(HttpError(400, `${errors.errors[0].msg} in ${errors.errors[0].path}`));
   };
 };
