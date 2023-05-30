@@ -37,7 +37,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -71,7 +73,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -105,7 +109,9 @@
     },
     "/auth/{userId}": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Update user's information",
         "operationId": "updateUser",
         "security": [
@@ -135,7 +141,9 @@
                   },
                   {
                     "type": "object",
-                    "required": ["avatar"],
+                    "required": [
+                      "avatar"
+                    ],
                     "properties": {
                       "avatar": {
                         "type": "string",
@@ -183,7 +191,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Logout of the authorized user",
         "operationId": "logout",
         "security": [
@@ -203,7 +213,9 @@
     },
     "/notices/category/{category}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices by category",
         "operationId": "getNoticesByCategory",
         "parameters": [
@@ -246,7 +258,9 @@
     },
     "/notices": {
       "post": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Add new notice by category",
         "operationId": "addNotice",
         "security": [
@@ -339,7 +353,9 @@
     },
     "/notices/{noticeId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notice by ID",
         "operationId": "getNoticeById",
         "parameters": [
@@ -384,7 +400,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Delete notice by ID",
         "security": [
           {
@@ -418,7 +436,9 @@
     },
     "/notices/favorite": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get user's favorite notices",
         "security": [
           {
@@ -448,7 +468,9 @@
     },
     "/notices/favorite/{noticeId}": {
       "patch": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Adds userID to the notice's favorite array",
         "security": [
           {
@@ -492,7 +514,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Remove userID from the notice's favorite array",
         "security": [
           {
@@ -526,7 +550,9 @@
     },
     "/notices/user/{userId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices of the authorized user",
         "operationId": "getNoticesByUser",
         "security": [
@@ -564,7 +590,9 @@
     },
     "/pets": {
       "post": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Add your pet",
         "security": [
           {
@@ -660,7 +688,9 @@
     },
     "/pets/{petId}": {
       "delete": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Delete a pet card",
         "security": [
           {
@@ -693,7 +723,9 @@
     },
     "/user": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get user info",
         "security": [
           {
@@ -719,7 +751,9 @@
     },
     "/news": {
       "get": {
-        "tags": ["News"],
+        "tags": [
+          "News"
+        ],
         "summary": "Get news",
         "operationId": "getNews",
         "parameters": [
@@ -749,339 +783,351 @@
           }
         }
       }
-    },
-    "components": {
-      "schemas": {
-        "User": {
-          "type": "object",
-          "required": ["email", "birthday"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "user's name",
-              "pattern": "^[a-zA-Z]+$",
-              "example": "Robert"
-            },
-            "email": {
-              "type": "string",
-              "description": "user's email",
-              "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
-              "example": "qwerty123@dmail.com",
-              "format": "email"
-            },
-            "birthday": {
-              "type": "string",
-              "description": "user's birthday",
-              "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
-              "example": "12.03.2020"
-            },
-            "phone": {
-              "type": "string",
-              "description": "user's phone",
-              "pattern": "^[+]380?[-\\s]?([5|6|9][0|3|5|6|8|9])?[-.\\s]?[0-9]{7}$",
-              "example": "+380990000000"
-            },
-            "city": {
-              "type": "string",
-              "description": "user's city",
-              "pattern": "^[a-zA-Z]+$",
-              "example": "Kyiv"
-            }
-          }
-        },
-        "Authentification": {
-          "type": "object",
-          "required": ["email", "password"],
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "user's email",
-              "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
-              "example": "qwerty123@dmail.com",
-              "format": "email"
-            },
-            "password": {
-              "type": "string",
-              "description": "user's password",
-              "pattern": "^[a-zA-Z0-9]+$",
-              "example": "qwerty123"
-            }
-          }
-        },
-        "Notice": {
-          "type": "object",
-          "properties": {
-            "category": {
-              "type": "string",
-              "description": "Category of notice",
-              "enum": ["sell", "lost-found", "for-free"],
-              "example": "sell or lost-found, or for-free"
-            },
-            "title": {
-              "type": "string",
-              "description": "Title of notice",
-              "example": "Looking my pets"
-            },
-            "name": {
-              "type": "string",
-              "description": "Pet's name",
-              "minLength": 2,
-              "maxLength": 16,
-              "example": "Adel"
-            },
-            "date": {
-              "type": "string",
-              "description": "Pet's birthday",
-              "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
-              "example": "10.02.2023"
-            },
-            "breed": {
-              "type": "string",
-              "description": "Pet's breed",
-              "minLength": 2,
-              "maxLength": 16,
-              "example": "Сhihuahua"
-            },
-            "location": {
-              "type": "string",
-              "description": "Pet's location",
-              "pattern": "^[A-Za-z\\s]+,\\s*[A-Za-z\\s]+$",
-              "example": "Kiev, Kiev region"
-            },
-            "price": {
-              "type": "number",
-              "minimum": 1,
-              "description": "Price for pet is required for category \"sell\"",
-              "example": "2000"
-            },
-            "sex": {
-              "type": "string",
-              "description": "Pet's sex",
-              "enum": ["male", "female"],
-              "example": "female"
-            },
-            "comments": {
-              "type": "string",
-              "description": "Comments about pet",
-              "minLength": 8,
-              "maxLength": 120,
-              "example": "The puppy is kind, has special features in the matter"
-            }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": [
+          "email",
+          "birthday"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "pattern": "^[a-zA-Z]+$",
+            "example": "Robert"
           },
-          "required": [
-            "category",
-            "title",
-            "name",
-            "date",
-            "breed",
-            "location",
-            "sex",
-            "file"
-          ]
-        },
-        "Pet": {
-          "type": "object",
-          "required": ["name", "birthday", "breed", "file"],
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Pet's name",
-              "minLength": 2,
-              "maxLength": 16,
-              "example": "Dolly"
-            },
-            "birthday": {
-              "type": "string",
-              "description": "Pet's birthday",
-              "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
-              "example": "12.03.2020"
-            },
-            "breed": {
-              "type": "string",
-              "description": "Pet's breed",
-              "minLength": 2,
-              "maxLength": 16,
-              "example": "spitz"
-            },
-            "comments": {
-              "type": "string",
-              "description": "Comments about pet",
-              "minLength": 8,
-              "maxLength": 120,
-              "example": "Тhis is my favorite dog"
-            }
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "user's birthday",
+            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "example": "12.03.2020"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "pattern": "^[+]380?[-\\s]?([5|6|9][0|3|5|6|8|9])?[-.\\s]?[0-9]{7}$",
+            "example": "+380990000000"
+          },
+          "city": {
+            "type": "string",
+            "description": "user's city",
+            "pattern": "^[a-zA-Z]+$",
+            "example": "Kyiv"
+          }
+        }
+      },
+      "Authentification": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user's password",
+            "pattern": "^[a-zA-Z0-9]+$",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "Notice": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Category of notice",
+            "enum": [
+              "sell",
+              "lost-found",
+              "for-free"
+            ],
+            "example": "sell or lost-found, or for-free"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of notice",
+            "example": "Looking my pets"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "Adel"
+          },
+          "date": {
+            "type": "string",
+            "description": "Pet's birthday",
+            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "example": "10.02.2023"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "Сhihuahua"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet's location",
+            "pattern": "^[A-Za-z\\s]+,\\s*[A-Za-z\\s]+$",
+            "example": "Kiev, Kiev region"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Price for pet is required for category \"sell\"",
+            "example": "2000"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet's sex",
+            "enum": [
+              "male",
+              "female"
+            ],
+            "example": "female"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comments about pet",
+            "minLength": 8,
+            "maxLength": 120,
+            "example": "The puppy is kind, has special features in the matter"
           }
         },
-        "News": {
-          "type": "object",
-
-          "properties": {
-            "imgUrl": {
-              "type": "string",
-              "example": "https://www.nytimes.com/images/2023/04/16/magazine/16mag-LOR/16mag-LOR-blog480.jpg"
-            },
-
-            "title": {
-              "type": "string",
-              "description": "The title of the article",
-              "example": "What I Learned Dogsitting for New York City’s Opulent Elite"
-            },
-
-            "text": {
-              "type": "string",
-              "description": "The text of the article",
-              "example": "In a city of yawning class inequality, some side hustles let you glimpse how the other half lives."
-            },
-
-            "date": {
-              "type": "string",
-              "description": "time and date of publication of the article",
-              "example": "2023-04-11T09:00:18+0000"
-            },
-
-            "url": {
-              "type": "string",
-              "description": "time and date of publication of the article",
-              "example": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html"
+        "required": [
+          "category",
+          "title",
+          "name",
+          "date",
+          "breed",
+          "location",
+          "sex",
+          "file"
+        ]
+      },
+      "Pet": {
+        "type": "object",
+        "required": [
+          "name",
+          "birthday",
+          "breed",
+          "file"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "Dolly"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "Pet's birthday",
+            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "example": "12.03.2020"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "minLength": 2,
+            "maxLength": 16,
+            "example": "spitz"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comments about pet",
+            "minLength": 8,
+            "maxLength": 120,
+            "example": "Тhis is my favorite dog"
+          }
+        }
+      },
+      "News": {
+        "type": "object",
+        "properties": {
+          "imgUrl": {
+            "type": "string",
+            "example": "https://www.nytimes.com/images/2023/04/16/magazine/16mag-LOR/16mag-LOR-blog480.jpg"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the article",
+            "example": "What I Learned Dogsitting for New York City’s Opulent Elite"
+          },
+          "text": {
+            "type": "string",
+            "description": "The text of the article",
+            "example": "In a city of yawning class inequality, some side hustles let you glimpse how the other half lives."
+          },
+          "date": {
+            "type": "string",
+            "description": "time and date of publication of the article",
+            "example": "2023-04-11T09:00:18+0000"
+          },
+          "url": {
+            "type": "string",
+            "description": "time and date of publication of the article",
+            "example": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html"
+          }
+        }
+      },
+      "RegistranionResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "user's email",
+            "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
+            "example": "qwerty123@dmail.com",
+            "format": "email"
+          },
+          "_id": {
+            "type": "string",
+            "description": "user's id",
+            "example": "646b2ec12353789047670bbe"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "user's id",
+            "example": "646b2ec12353789047670bbe"
+          },
+          "token": {
+            "type": "string",
+            "description": "token for authorization"
+          }
+        }
+      },
+      "UserResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/User"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "avatarURL": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://res.cloudinary.com/dboarinns/image/upload/v1685180233/pet_app/users/pet_app/user.jpg"
+              },
+              "_id": {
+                "type": "string",
+                "description": "user's id",
+                "example": "646b2ec12353789047670bbe"
+              }
             }
           }
-        },
-
-        "RegistranionResponse": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "user's email",
-              "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
-              "example": "qwerty123@dmail.com",
-              "format": "email"
-            },
-            "_id": {
-              "type": "string",
-              "description": "user's id",
-              "example": "646b2ec12353789047670bbe"
-            }
-          }
-        },
-        "LoginResponse": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "user's id",
-              "example": "646b2ec12353789047670bbe"
-            },
-            "token": {
-              "type": "string",
-              "description": "token for authorization"
-            }
-          }
-        },
-        "UserResponse": {
+        ]
+      },
+      "GetNoticeResponse": {
+        "type": "array",
+        "items": {
           "allOf": [
             {
-              "$ref": "#/components/schemas/User"
+              "$ref": "#/components/schemas/Notice"
             },
             {
               "type": "object",
               "properties": {
-                "avatarURL": {
+                "fileURL": {
                   "type": "string",
                   "format": "uri",
-                  "example": "https://res.cloudinary.com/dboarinns/image/upload/v1685180233/pet_app/users/pet_app/user.jpg"
+                  "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                 },
-                "_id": {
-                  "type": "string",
-                  "description": "user's id",
-                  "example": "646b2ec12353789047670bbe"
+                "owner": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "description": "notice's id",
+                      "example": "646b2ec12353789047670bbe"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "description": "user's phone",
+                      "example": "+380990000001"
+                    }
+                  }
                 }
               }
             }
           ]
-        },
-        "GetNoticeResponse": {
-          "type": "array",
-          "items": {
+        }
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/Notice"
+                "$ref": "#/components/schemas/UserResponse"
               },
               {
                 "type": "object",
                 "properties": {
-                  "fileURL": {
-                    "type": "string",
-                    "format": "uri",
-                    "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
-                  },
-                  "owner": {
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "type": "string",
-                        "description": "notice's id",
-                        "example": "646b2ec12353789047670bbe"
-                      },
-                      "phone": {
-                        "type": "string",
-                        "description": "user's phone",
-                        "example": "+380990000001"
-                      }
-                    }
+                  "isNewUser": {
+                    "type": "boolean"
                   }
                 }
               }
             ]
-          }
-        },
-        "GetUserResponse": {
-          "type": "object",
-          "properties": {
-            "user": {
+          },
+          "pet": {
+            "type": "array",
+            "items": {
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "$ref": "#/components/schemas/Pet"
                 },
                 {
                   "type": "object",
                   "properties": {
-                    "isNewUser": {
-                      "type": "boolean"
+                    "photoURL": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                     }
                   }
                 }
               ]
-            },
-            "pet": {
-              "type": "array",
-              "items": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/Pet"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "photoURL": {
-                        "type": "string",
-                        "format": "uri",
-                        "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
-                      }
-                    }
-                  }
-                ]
-              }
             }
           }
         }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
