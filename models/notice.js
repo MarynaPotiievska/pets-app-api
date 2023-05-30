@@ -45,7 +45,7 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       required: true,
-      match: [locationRegex, 'Location should be in the format of "City, Region".'],
+      match: [locationRegex, 'Location should be in the format of "City".'],
     },
     price: {
       type: Number,
@@ -87,7 +87,7 @@ const schema = [
     .isString()
     .notEmpty()
     .matches(locationRegex)
-    .withMessage('Location should be in the format of "City, Region".'),
+    .withMessage('Location should be in the format of "City".'),
   body("price")
     .if(body("category").exists().equals("sell"))
     .notEmpty()
