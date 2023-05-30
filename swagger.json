@@ -761,7 +761,7 @@
             "type": "string",
             "description": "user's email",
             "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
-            "example": "qwerty123@dmail.com",
+            "example": "qwerty123@gmail.com",
             "format": "email"
           },
           "password": {
@@ -883,7 +883,7 @@
             "type": "string",
             "description": "user's email",
             "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
-            "example": "qwerty123@dmail.com",
+            "example": "qwerty123@gmail.com",
             "format": "email"
           },
           "_id": {
