@@ -34,5 +34,7 @@ Use the documentation [https://pets-rest-api.onrender.com/api/docs/#/] to make s
 ## Usage
 
 > You can use our server for your App [https://pets-rest-api.onrender.com/]
-> Connect the MongoDB Compass.
-> Start the Postman agent, enter in to your Workspace, enter http://localhost:3001/api/..., specify the request body and parameters. Click the send button and get your response.
+> Before using the server in your App, you may want to check what requests you can make:
+
+- Connect the MongoDB Compass.
+- Start the Postman agent, enter in to your Workspace, enter http://localhost:3001/api/..., specify the request body and parameters. Click the send button and get your response.
