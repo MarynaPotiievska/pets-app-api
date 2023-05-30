@@ -1,5 +1,6 @@
 const { HttpError, ctrlWrapper } = require("../helpers");
 const { User } = require("../models/user");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -23,7 +24,6 @@ const register = async (req, res) => {
 
   res.status(201).json({
     email: newUser.email,
-    password: newUser.password,
   });
 };
 
@@ -66,7 +66,7 @@ const updateUser = async (req, res) => {
       isNewUser: value,
     },
     { new: true }
-  ).select("-isNewUser -password")
+  ).select("-isNewUser -password");
 
   if (!result) {
     throw HttpError(404, "User not found");

@@ -1,6 +1,8 @@
 const express = require("express");
+
 const ctrl = require("../../controllers/auth");
 const { validateBody, authenticate, upload } = require("../../middlewares");
+const validateUpdateFields = require("../../middlewares/validateUpdateFields");
 const { schemas } = require("../../models/user");
 
 const router = express.Router();
