@@ -72,7 +72,6 @@ const registerSchema = [
     .withMessage(
       "Password is required and must be 6-16 characters long, containing only letters and numbers"
     ),
-  ,
 ];
 
 const updateSchema = [
