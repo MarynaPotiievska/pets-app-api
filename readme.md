@@ -24,6 +24,7 @@ Use the documentation [https://pets-rest-api.onrender.com/api/docs/#/] to make s
 - MongoDB Compass
 - Cloudinary
 - Multer
+- Swagger-ui-express
 
 ## Installation
 
