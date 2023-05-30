@@ -34,6 +34,7 @@ const noticeSchema = new Schema(
     },
     fileURL: {
       type: String,
+      required: true,
       default: null,
     },
     sex: {
@@ -44,15 +45,17 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       required: true,
-      match: locationRegex,
+      match: [locationRegex, 'Location should be in the format of "City, Region".'],
     },
     price: {
       type: Number,
-      required: function () {
-        return this.category === "sell";
+      min: [1, "Price must be higher than 0"],
+      validate: {
+        validator: function (value) {
+          return this.category !== "lost-found" && this.category !== "for-free" && value !== null;
+        },
+        message: "Price is not allowed for this category",
       },
-
-      min: [1, "Price must be higher then 0"],
     },
     comments: {
       type: String,
@@ -65,6 +68,7 @@ const noticeSchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: "user",
     },
   },
@@ -74,10 +78,7 @@ const noticeSchema = new Schema(
 const schema = [
   body("title").isString().notEmpty(),
   body("name").isString().notEmpty().isLength({ min: 2, max: 16 }),
-  body("date")
-    .isString()
-    .notEmpty()
-    .matches(dateRegexp),
+  body("date").isString().notEmpty().matches(dateRegexp),
   body("breed").isString().notEmpty().isLength({ min: 2, max: 16 }),
   body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
   body("sex").isString().notEmpty().isIn(["male", "female"]),
@@ -88,9 +89,10 @@ const schema = [
     .matches(locationRegex)
     .withMessage('Location should be in the format of "City, Region".'),
   body("price")
-    .if(body("category").equals("sell"))
+    .if(body("category").exists().equals("sell"))
     .notEmpty()
     .isNumeric()
+    .isFloat({ min: 0 })
     .isLength({ min: 1 })
     .withMessage("Price must be higher then 0"),
 ];

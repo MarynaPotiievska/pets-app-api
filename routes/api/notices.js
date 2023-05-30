@@ -10,22 +10,27 @@ const { schema } = require("../../models/notice");
 
 const router = express.Router();
 
-router.get("/category/:category", ctrl.getNoticesByCategory); // для вибірки по категорії + по заголовку
+router.get("/category/:category", ctrl.getNoticesByCategory);
 
-router.get("/favorite", authenticate, ctrl.getFavorite); // для вибірки усіх обраних оголошення авторизованого користувача
+router.get("/favorite", authenticate, ctrl.getFavorite);
 
-router.get("/:noticeId", isValidId, ctrl.getNoticeById); // для знаходження по id
+router.get("/:noticeId", isValidId, ctrl.getNoticeById);
 
-router.get("/user/:userId", authenticate, ctrl.getNoticesByUser); // для отримання оголошень, створених авторизованим користувачем
+router.get("/user/:userId", authenticate, ctrl.getNoticesByUser);
 
-router.patch("/favorite/:noticeId", authenticate, isValidId, ctrl.addToFavorite); // для додавання в обрані
+router.patch(
+  "/favorite/:noticeId",
+  authenticate,
+  isValidId,
+  ctrl.addToFavorite
+);
 
 router.delete(
   "/favorite/:noticeId",
   authenticate,
   isValidId,
   ctrl.removeFromFavorite
-); // для видалення оголошення з обраних
+);
 
 router.post(
   "/",
@@ -33,8 +38,8 @@ router.post(
   upload.single("file"),
   validateBody(schema),
   ctrl.addNotice
-); // для створення оголошення
+);
 
-router.delete("/:noticeId", authenticate, isValidId, ctrl.removeNotice); // для видалення оголошення, створеного авторизованим користувачем
+router.delete("/:noticeId", authenticate, isValidId, ctrl.removeNotice);
 
 module.exports = router;
