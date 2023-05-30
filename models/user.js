@@ -76,37 +76,21 @@ const registerSchema = [
 ];
 
 const updateSchema = [
-  //body("email").isString().notEmpty().matches(emailPattern),
-  body("email")
+  check("email")
     .optional()
     .isString()
     .notEmpty()
     .matches(emailPattern)
-    .withMessage("Поле email не може бути порожнім"),
-  body("name")
-    .optional()
-    .isString()
-    .matches(namePattern)
-    .withMessage("Поле email не може бути порожнім"),
-  ,
-  //body("birthday").isString().notEmpty().matches(datePattern),
-  body("birthday")
+    .withMessage("The email field cannot be empty"),
+  check("name").optional().isString().matches(namePattern),
+  check("birthday")
     .optional()
     .isString()
     .notEmpty()
     .matches(datePattern)
-    .withMessage("Поле дати народження не може бути порожнім"),
-  body("phone")
-    .optional()
-    .isString()
-    .matches(phonePattern)
-    .withMessage("Поле email не може бути порожнім"),
-  ,
-  body("city")
-    .optional()
-    .isString()
-    .matches(namePattern)
-    .withMessage("Поле email не може бути порожнім"),
+    .withMessage("The date of birth field cannot be empty"),
+  check("phone").optional().isString().matches(phonePattern),
+  check("city").optional().isString().matches(namePattern),
 ];
 
 const schemas = {
