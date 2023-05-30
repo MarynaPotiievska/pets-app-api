@@ -282,6 +282,7 @@
                     "properties": {
                       "file": {
                         "type": "string",
+                        "description": "Add the photo of your pet",
                         "format": "binary"
                       }
                     }
@@ -306,6 +307,7 @@
                       "properties": {
                         "fileURL": {
                           "type": "string",
+                          "description": "the photo of your pet",
                           "format": "uri",
                           "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
                         }
@@ -384,6 +386,7 @@
                       "properties": {
                         "fileURL": {
                           "type": "string",
+                          "description": "the photo of your pet",
                           "format": "uri",
                           "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
                         }
@@ -1059,6 +1062,7 @@
               "properties": {
                 "fileURL": {
                   "type": "string",
+                  "description": "photo of your pet",
                   "format": "uri",
                   "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                 },
