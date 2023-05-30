@@ -1,10 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const { body } = require("express-validator");
-
-const NAME_REGEX = /^[a-zA-Z ]+$/;
-const DATE_REGEX = /^\d{2}.\d{2}.\d{4}$/;
-const BREED_REGEX = /^[a-zA-Z ]+$/;
+const { validateData } = require("../middlewares");
 
 const petSchema = new Schema(
   {
@@ -12,13 +9,19 @@ const petSchema = new Schema(
       type: String,
       minLength: 2,
       maxLength: 16,
-      match: NAME_REGEX,
+      validate: {
+        validator: validateData.validateName,
+        message: "Name is invalid",
+      },
       required: [true, "Name is required"],
     },
 
     birthday: {
       type: String,
-      match: DATE_REGEX,
+      validate: {
+        validator: validateData.validateDate,
+        message: "Date of birth is invalid",
+      },
       required: [true, "Date of birth is required"],
     },
 
@@ -26,7 +29,10 @@ const petSchema = new Schema(
       type: String,
       minLength: 2,
       maxLength: 16,
-      match: BREED_REGEX,
+      validate: {
+        validator: validateData.validateBreed,
+        message: "Breed is invalid",
+      },
       required: [true, "Breed is required"],
     },
     comments: {
@@ -36,7 +42,6 @@ const petSchema = new Schema(
     },
     fileURL: {
       type: String,
-      default: "",
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -55,14 +60,19 @@ const schemas = [
     .isString()
     .notEmpty()
     .isLength({ min: 2, max: 16 })
-    .matches(NAME_REGEX),
-  body("birthday").isString().notEmpty().matches(DATE_REGEX),
+    .matches(validateData.validateName),
+  body("birthday")
+    .isString()
+    .notEmpty()
+    .matches(validateData.validateDate)
+    .withMessage("Birthday is required and must be in the format DD.MM.YYYY"),
+
   body("breed")
     .isString()
     .notEmpty()
     .isLength({ min: 2, max: 16 })
-    .matches(BREED_REGEX),
-  body(" comments").isString().isLength({ min: 8, max: 120 }),
+    .matches(validateData.validateBreed),
+  body("comments").isString().isLength({ min: 8, max: 120 }),
 ];
 
 const Pet = model("pet", petSchema);
