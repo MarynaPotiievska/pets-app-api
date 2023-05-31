@@ -893,8 +893,8 @@
           "location": {
             "type": "string",
             "description": "Pet's location",
-            "pattern": "^[A-Za-z\\s]+,\\s*[A-Za-z\\s]+$",
-            "example": "Kiev, Kiev region"
+            "pattern": "^[a-zA-Z ]+$",
+            "example": "Kiev"
           },
           "price": {
             "type": "number",
