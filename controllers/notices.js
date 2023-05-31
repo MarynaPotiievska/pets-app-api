@@ -12,7 +12,6 @@ const getNoticesByCategory = async (req, res) => {
     ...(title ? { title } : {}),
     ...(keyword ? { title: { $regex: keyword, $options: "i" } } : {}),
   };
-
   const notices = await Notice.find(query).skip(skip).limit(limit).exec();
   res.json(notices);
 };
