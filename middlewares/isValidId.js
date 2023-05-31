@@ -4,10 +4,10 @@ const HttpError = require("../helpers/HttpError");
 
 const isValidId = (req, res, next) => {
 
-    const { noticeId } = req.params;
-    const { petId } = req.params;
+    const { noticeId, petId } = req.params;
+    
     const id = noticeId || petId;
-    if (!isValidObjectId(id)) return next(HttpError(404));
+    if (!isValidObjectId(id)) return next(HttpError(404, `${id} is not correct id format`));
   
     next();
   };
