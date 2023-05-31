@@ -57,20 +57,16 @@ const updateUser = async (req, res) => {
   const { isNewUser } = req.user;
 
   const value = isNewUser ? !isNewUser : isNewUser;
-
-  if (req.body.avatarURL && req.body.avatarURL.trim() === "") {
-    throw HttpError(400, "avatarURL is required");
-  }
-
+  //  if (!req.body.avatarURL || req.body.avatarURL.trim() === "") {
+  //   throw HttpError(400, "avatarURL is required");
+  // }
   const update = {
     ...req.body,
     isNewUser: value,
   };
-
   if (req.file) {
     update.avatarURL = req.file.path;
   }
-
   const result = await User.findByIdAndUpdate(
     { _id: userId },
     update,
