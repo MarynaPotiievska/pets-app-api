@@ -72,7 +72,7 @@ const registerSchema = [
     .isLength({ min: 6, max: 16 })
     .matches(passwordPattern)
     .withMessage(
-      "Password is required and must be 6-16 characters long, containing only letters and numbers"
+      "Password is required and must be 6-16 characters long. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     ),
 ];
 
