@@ -5,13 +5,8 @@
     "description": "This is a Pet App Server.\n\nSome useful links:\n- [The Pet App repository](https://github.com/MarynaPotiievska/pets-app-api)",
     "version": "1.0.0"
   },
-  "consumes": [
-    "application/json",
-    "multipart/form-data"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
   "servers": [
     {
       "url": "https://pets-rest-api.onrender.com/api"
@@ -42,9 +37,7 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -78,9 +71,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -114,9 +105,7 @@
     },
     "/auth/{userId}": {
       "patch": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Update user's information",
         "operationId": "updateUser",
         "security": [
@@ -192,9 +181,7 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Logout of the authorized user",
         "operationId": "logout",
         "security": [
@@ -214,9 +201,7 @@
     },
     "/notices/category/{category}": {
       "get": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Get notices by category",
         "operationId": "getNoticesByCategory",
         "parameters": [
@@ -259,9 +244,7 @@
     },
     "/notices": {
       "post": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Add new notice by category",
         "operationId": "addNotice",
         "security": [
@@ -356,9 +339,7 @@
     },
     "/notices/{noticeId}": {
       "get": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Get notice by ID",
         "operationId": "getNoticeById",
         "parameters": [
@@ -404,9 +385,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Delete notice by ID",
         "security": [
           {
@@ -440,9 +419,7 @@
     },
     "/notices/favorite": {
       "get": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Get user's favorite notices",
         "security": [
           {
@@ -472,9 +449,7 @@
     },
     "/notices/favorite/{noticeId}": {
       "patch": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Adds userID to the notice's favorite array",
         "security": [
           {
@@ -518,9 +493,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Remove userID from the notice's favorite array",
         "security": [
           {
@@ -554,9 +527,7 @@
     },
     "/notices/user/{userId}": {
       "get": {
-        "tags": [
-          "Notices"
-        ],
+        "tags": ["Notices"],
         "summary": "Get notices of the authorized user",
         "operationId": "getNoticesByUser",
         "security": [
@@ -594,9 +565,7 @@
     },
     "/pets": {
       "post": {
-        "tags": [
-          "Pets"
-        ],
+        "tags": ["Pets"],
         "summary": "Add your pet",
         "security": [
           {
@@ -692,9 +661,7 @@
     },
     "/pets/{petId}": {
       "delete": {
-        "tags": [
-          "Pets"
-        ],
+        "tags": ["Pets"],
         "summary": "Delete a pet card",
         "security": [
           {
@@ -727,9 +694,7 @@
     },
     "/user": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get user info",
         "security": [
           {
@@ -755,9 +720,7 @@
     },
     "/news": {
       "get": {
-        "tags": [
-          "News"
-        ],
+        "tags": ["News"],
         "summary": "Get news",
         "operationId": "getNews",
         "parameters": [
@@ -793,10 +756,7 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": [
-          "email",
-          "birthday"
-        ],
+        "required": ["email", "birthday"],
         "properties": {
           "name": {
             "type": "string",
@@ -833,10 +793,7 @@
       },
       "Authentification": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -859,11 +816,7 @@
           "category": {
             "type": "string",
             "description": "Category of notice",
-            "enum": [
-              "sell",
-              "lost-found",
-              "for-free"
-            ],
+            "enum": ["sell", "lost-found", "for-free"],
             "example": "sell or lost-found, or for-free"
           },
           "title": {
@@ -908,10 +861,7 @@
           "sex": {
             "type": "string",
             "description": "Pet's sex",
-            "enum": [
-              "male",
-              "female"
-            ],
+            "enum": ["male", "female"],
             "example": "female"
           },
           "comments": {
@@ -935,16 +885,12 @@
       },
       "Pet": {
         "type": "object",
-        "required": [
-          "name",
-          "birthday",
-          "breed",
-          "file"
-        ],
+        "required": ["name", "birthday", "breed", "file"],
         "properties": {
           "name": {
             "type": "string",
             "description": "Pet's name",
+            "pattern": "/^[A-Z][a-z]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "Dolly"
@@ -958,6 +904,7 @@
           "breed": {
             "type": "string",
             "description": "Pet's breed",
+            "pattern": "/^[a-zA-Z ]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "spitz"
