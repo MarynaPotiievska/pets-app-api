@@ -1,10 +1,19 @@
 const { Schema, model } = require("mongoose");
 const { body } = require("express-validator");
-const { validateData } = require("../middlewares");
+// const { validateData } = require("../middlewares");
+const {
+  validateName,
+
+  validateDate,
+  validateBreed,
+
+  validateLocation,
+} = require("../middlewares/validateData");
 const {
   namePattern,
   datePattern,
   breedPattern,
+
   locationPattern,
 } = require("../constants/RegExp");
 
@@ -22,7 +31,7 @@ const noticeSchema = new Schema(
     name: {
       type: String,
       validate: {
-        validator: validateData.validateName,
+        validator: validateName,
         message: "Name is invalid",
       },
       required: [true, "Name is required"],
@@ -32,7 +41,7 @@ const noticeSchema = new Schema(
     date: {
       type: String,
       validate: {
-        validator: validateData.validateDate,
+        validator: validateDate,
         message: "Date of birth is invalid",
       },
       required: [true, "Date is required"],
@@ -40,7 +49,7 @@ const noticeSchema = new Schema(
     breed: {
       type: String,
       validate: {
-        validator: validateData.validateBreed,
+        validator: validateBreed,
         message: "Breed is invalid",
       },
       required: [true, "Breed is required"],
@@ -60,7 +69,7 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       validate: {
-        validator: validateData.validateLocatione,
+        validator: validateLocation,
         message: 'Location should be in the format of "City".',
       },
       required: true,
@@ -122,7 +131,7 @@ const schema = [
     .if(body("category").exists().equals("sell"))
     .notEmpty()
     .isNumeric()
-    .isFloat({ min: 0, gt: 0  })
+    .isFloat({ min: 0, gt: 0 })
     .isLength({ min: 1 })
     .withMessage("Price must be higher then 0"),
 ];

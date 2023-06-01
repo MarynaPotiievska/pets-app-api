@@ -1,40 +1,46 @@
-const validateData = {
-  validateName(name) {
-    const namePattern = /^[A-Z][a-z]+$/;
-    return namePattern.test(name);
-  },
+const {
+  namePattern,
+  datePattern,
+  phonePattern,
+  emailPattern,
+  passwordPattern,
+  locationPattern,
+  breedPattern,
+} = require("../constants/RegExp");
 
-  validateDate(date) {
-    const datePattern = /^\d{2}.\d{2}.\d{4}$/;
-    return datePattern.test(date);
-  },
+function validateName(name) {
+  return namePattern.test(name);
+}
 
-  validateBreed(breed) {
-    const breedPattern = /^[a-zA-Z ]+$/;
-    return breedPattern.test(breed);
-  },
+function validateEmail(email) {
+  return emailPattern.test(email);
+}
 
-  validateEmail(email) {
-    const emailPattern = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
-    return emailPattern.test(email);
-  },
+function validateDate(date) {
+  return datePattern.test(date);
+}
+function validateBreed(breed) {
+  return breedPattern.test(breed)
+}
 
-  validatePhone(phone) {
-    const phonePattern =
-      /^[+]380?[-\s]?([5|6|9][0|3|5|6|8|9])?[-.\s]?[0-9]{7}$/;
-    return phonePattern.test(phone);
-  },
+function validatePhone(phone) {
+  return phonePattern.test(phone);
+}
 
-  validatePassword(password) {
-    const passwordPattern =
-      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z[:punct:]]+$/;
-    return passwordPattern.test(password);
-  },
+function validateLocation(location) {
+  return locationPattern.test(location);
+}
 
-  validateLocatione(location) {
-    const locationPattern = /^[A-Z][a-z]+$/;
-    return locationPattern.test(location);
-  },
+function validatePassword(password) {
+  return passwordPattern.test(password);
+}
+
+module.exports = {
+  validateName,
+  validateEmail,
+  validateDate,
+  validateBreed,
+  validatePhone,
+  validateLocation,
+  validatePassword,
 };
-
-module.exports = validateData;

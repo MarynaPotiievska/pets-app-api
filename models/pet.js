@@ -1,11 +1,18 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const { body } = require("express-validator");
-const { validateData } = require("../middlewares");
+// const { validateData } = require("../middlewares");
 const {
-  breedPattern,
-  datePattern,
+  validateName,
+  validateBreed,
+  validateDate,
+  
+} = require("../middlewares/validateData");
+const {
   namePattern,
+  datePattern,
+  breedPattern
+  
 } = require("../constants/RegExp");
 
 const petSchema = new Schema(
@@ -15,7 +22,7 @@ const petSchema = new Schema(
       minLength: 2,
       maxLength: 16,
       validate: {
-        validator: validateData.validateName,
+        validator: validateName,
         message: "Name is invalid",
       },
       required: [true, "Name is required"],
@@ -24,7 +31,7 @@ const petSchema = new Schema(
     birthday: {
       type: String,
       validate: {
-        validator: validateData.validateDate,
+        validator: validateDate,
         message: "Date of birth is invalid",
       },
       required: [true, "Date of birth is required"],
@@ -35,7 +42,7 @@ const petSchema = new Schema(
       minLength: 2,
       maxLength: 16,
       validate: {
-        validator: validateData.validateBreed,
+        validator: validateBreed,
         message: "Breed is invalid",
       },
       required: [true, "Breed is required"],

@@ -1,7 +1,15 @@
 const { Schema, model } = require("mongoose");
 const { body, check } = require("express-validator");
+
 const { handleMongooseError } = require("../helpers");
-// const { validateData } = require("../middlewares");
+const {
+  validateName,
+  validateEmail,
+  validateDate,
+  validatePhone,
+  validateLocation,
+  validatePassword,
+} = require("../middlewares/validateData");
 const {
   namePattern,
   datePattern,
@@ -15,31 +23,50 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      match: namePattern,
+      validate: {
+        validator: validateName,
+        message: "Name is invalid",
+      },
     },
     email: {
       type: String,
-      match: emailPattern,
+      validate: {
+        validator: validateEmail,
+        message: "Email is invalid",
+      },
       required: [true, "Email is required"],
       unique: true,
     },
     birthday: {
       type: String,
-      match: datePattern,
+      validate: {
+        validator: validateDate,
+        message: "Date of birth is invalid",
+      },
       default: "",
     },
     phone: {
       type: String,
-      match: phonePattern,
+      validate: {
+        validator: validatePhone,
+        message: "The phone number is invalid",
+      },
       default: "",
     },
     city: {
       type: String,
-      match: locationPattern,
+      validate: {
+        validator: validateLocation,
+        message: 'Location should be in the format of "City".',
+      },
       default: "",
     },
     password: {
       type: String,
+      validate: {
+        validator: validatePassword,
+        message: "Password is invalid",
+      },
       required: [true, "Password is required"],
     },
     token: {
@@ -72,7 +99,7 @@ const registerSchema = [
     .isLength({ min: 6, max: 16 })
     .matches(passwordPattern)
     .withMessage(
-      "Password is required and must be 6-16 characters long, containing only letters and numbers"
+      "Password is required and must be 6-16 characters long. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number."
     ),
 ];
 
