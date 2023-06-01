@@ -18,9 +18,10 @@ const addPet = async (req, res) => {
 
 const removePet = async (req, res) => {
   const { petId } = req.params;
-  const result = await Pet.findByIdAndRemove(petId);
+  const { _id: owner } = req.user;
+  const result = await Pet.findOneAndRemove({ _id: petId, owner });
   if (!result) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "This is not your pet");
   }
   res.json({
     message: "The card has been deleted",

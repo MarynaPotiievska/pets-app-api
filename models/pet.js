@@ -2,6 +2,11 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const { body } = require("express-validator");
 const { validateData } = require("../middlewares");
+const {
+  breedPattern,
+  datePattern,
+  namePattern,
+} = require("../constants/RegExp");
 
 const petSchema = new Schema(
   {
@@ -60,18 +65,18 @@ const schemas = [
     .isString()
     .notEmpty()
     .isLength({ min: 2, max: 16 })
-    .matches(validateData.validateName),
+    .matches(namePattern),
   body("birthday")
     .isString()
     .notEmpty()
-    .matches(validateData.validateDate)
+    .matches(datePattern)
     .withMessage("Birthday is required and must be in the format DD.MM.YYYY"),
 
   body("breed")
     .isString()
     .notEmpty()
     .isLength({ min: 2, max: 16 })
-    .matches(validateData.validateBreed),
+    .matches(breedPattern),
   body("comments").isString().isLength({ min: 8, max: 120 }),
 ];
 
