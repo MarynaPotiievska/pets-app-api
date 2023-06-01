@@ -27,7 +27,7 @@ const validateData = {
 
   validatePassword(password) {
     const passwordPattern =
-      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z[:punct:]]+$/;
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*_.-]+$/;
     return passwordPattern.test(password);
   },
 
