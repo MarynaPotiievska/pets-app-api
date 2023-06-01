@@ -874,6 +874,7 @@
           "name": {
             "type": "string",
             "description": "Pet's name",
+            "pattern": "/^[A-Z][a-z]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "Adel"
@@ -881,12 +882,13 @@
           "date": {
             "type": "string",
             "description": "Pet's birthday",
-            "pattern": "^\\d{2}([.])\\d{2}([.])\\d{4}$",
+            "pattern": "/^\\d{2}.\\d{2}.\\d{4}$/",
             "example": "10.02.2023"
           },
           "breed": {
             "type": "string",
             "description": "Pet's breed",
+            "pattern": "/^[a-zA-Z ]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "Сhihuahua"
@@ -894,7 +896,7 @@
           "location": {
             "type": "string",
             "description": "Pet's location",
-            "pattern": "^[a-zA-Z ]+$",
+            "pattern": "/^[A-Z][a-z]+$/",
             "example": "Kiev"
           },
           "price": {
