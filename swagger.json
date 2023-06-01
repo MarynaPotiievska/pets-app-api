@@ -874,7 +874,7 @@
           "name": {
             "type": "string",
             "description": "Pet's name",
-            "pattern": "/^[a-zA-Z ]+$/",
+            "pattern": "/^[A-Z][a-z]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "Adel"
@@ -896,7 +896,7 @@
           "location": {
             "type": "string",
             "description": "Pet's location",
-            "pattern": "/^[A-Za-z\\s]+,\\s*[A-Za-z\\s]+$/",
+            "pattern": "/^[A-Z][a-z]+$/",
             "example": "Kiev"
           },
           "price": {
