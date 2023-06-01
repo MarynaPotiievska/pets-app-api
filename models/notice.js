@@ -92,7 +92,7 @@ const schema = [
     .if(body("category").exists().equals("sell"))
     .notEmpty()
     .isNumeric()
-    .isFloat({ min: 0 })
+    .isFloat({ min: 0, gt: 0  })
     .isLength({ min: 1 })
     .withMessage("Price must be higher then 0"),
 ];
