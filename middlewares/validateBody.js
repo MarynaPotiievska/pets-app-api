@@ -17,15 +17,11 @@ const validateBody = (validations) => {
       errors.array().forEach((error) => {
         if (!errorFields.includes(error.path)) {
           errorFields.push(error.path);
+          errorMessages.push(`${error.msg} in field ${error.path}`);
         }
-        errorMessages.push(`${error.msg} in field ${error.path}`);
       });
 
-      const uniqueErrorMessages = errorFields.map((field) =>
-        errorMessages.filter((msg) => msg.includes(`in field ${field}`)).join(", ")
-      );
-
-      next(HttpError(400, uniqueErrorMessages));
+      next(HttpError(400, errorMessages.join(", ")));
     } catch (error) {
       next(error);
     }
