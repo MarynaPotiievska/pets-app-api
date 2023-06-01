@@ -1,6 +1,6 @@
 const validateData = {
   validateName(name) {
-    const namePattern = /^[a-zA-Z ]+$/;
+    const namePattern = /^[A-Z][a-z]+$/;
     return namePattern.test(name);
   },
 
@@ -26,12 +26,13 @@ const validateData = {
   },
 
   validatePassword(password) {
-    const passwordPattern = /^[a-zA-Z0-9]+$/;
+    const passwordPattern =
+      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z[:punct:]]+$/;
     return passwordPattern.test(password);
   },
 
   validateLocatione(location) {
-    const locationPattern = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
+    const locationPattern = /^[A-Z][a-z]+$/;
     return locationPattern.test(location);
   },
 };
