@@ -8,7 +8,9 @@ const getNoticesByCategory = async (req, res) => {
   const skip = (page - 1) * limit;
 
   const query = {
-    ...(category ? { category } : {}),
+    category: {
+      $in: category ? [category] : ["sell", "lost-found", "for-free"]
+    },
     ...(keyword ? { title: { $regex: keyword, $options: "i" } } : {}),
   };
   const notices = await Notice.find(query).skip(skip).limit(limit).exec();
