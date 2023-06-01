@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { body, check } = require("express-validator");
 const { handleMongooseError } = require("../helpers");
-// const { validateData } = require("../middlewares");
+const validateData = require("../middlewares/validateData");
 const {
   namePattern,
   datePattern,
@@ -15,31 +15,50 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      match: namePattern,
+      validate: {
+        validator: validateData.validateName,
+        message: "Name is invalid",
+      },
     },
     email: {
       type: String,
-      match: emailPattern,
+      validate: {
+        validator: validateData.validateEmail,
+        message: "Email is invalid",
+      },
       required: [true, "Email is required"],
       unique: true,
     },
     birthday: {
       type: String,
-      match: datePattern,
+      validate: {
+        validator: validateData.validateDate,
+        message: "Date of birth is invalid",
+      },
       default: "",
     },
     phone: {
       type: String,
-      match: phonePattern,
+      validate: {
+        validator: validateData.validatePhone,
+        message: "The phone number is invalid",
+      },
       default: "",
     },
     city: {
       type: String,
-      match: locationPattern,
+      validate: {
+        validator: validateData.validateLocatione,
+        message: 'Location should be in the format of "City".',
+      },
       default: "",
     },
     password: {
       type: String,
+      validate: {
+        validator: validateData.validatePassword,
+        message: "Password is invalid",
+      },
       required: [true, "Password is required"],
     },
     token: {
