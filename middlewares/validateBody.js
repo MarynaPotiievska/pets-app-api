@@ -22,6 +22,7 @@ const validateBody = (validations) => {
       });
 
       next(HttpError(400, errorMessages.join(", ")));
+
     } catch (error) {
       next(error);
     }

@@ -57,14 +57,16 @@ const updateUser = async (req, res) => {
   const { isNewUser } = req.user;
 
   const value = isNewUser ? !isNewUser : isNewUser;
-
+  const update = {
+    ...req.body,
+    isNewUser: value,
+  };
+  if (req.file) {
+    update.avatarURL = req.file.path;
+  }
   const result = await User.findByIdAndUpdate(
     { _id: userId },
-    {
-      ...req.body,
-      avatarURL: req.file.path,
-      isNewUser: value,
-    },
+    update,
     { new: true }
   ).select("-isNewUser -password");
 

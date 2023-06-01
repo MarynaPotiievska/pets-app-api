@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const { body } = require("express-validator");
 
 const dateRegexp = /^\d{2}([.])\d{2}([.])\d{4}$/;
-const locationRegex = /^[A-Za-z\s]+,\s*[A-Za-z\s]+$/;
+const locationRegex = /^[a-zA-Z ]+$/;
 
 const noticeSchema = new Schema(
   {
@@ -45,7 +45,7 @@ const noticeSchema = new Schema(
     location: {
       type: String,
       required: true,
-      match: [locationRegex, 'Location should be in the format of "City, Region".'],
+      match: [locationRegex, 'Location should be in the format of "City".'],
     },
     price: {
       type: Number,
@@ -87,7 +87,7 @@ const schema = [
     .isString()
     .notEmpty()
     .matches(locationRegex)
-    .withMessage('Location should be in the format of "City, Region".'),
+    .withMessage('Location should be in the format of "City".'),
   body("price")
     .if(body("category").exists().equals("sell"))
     .notEmpty()
