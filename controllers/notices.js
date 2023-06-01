@@ -4,12 +4,11 @@ const HttpError = require("../helpers/HttpError");
 
 const getNoticesByCategory = async (req, res) => {
   const { category } = req.params;
-  const { page = 1, limit = 6, title = null, keyword = null } = req.query;
+  const { page = 1, limit = 6, keyword = null } = req.query;
   const skip = (page - 1) * limit;
 
   const query = {
     ...(category ? { category } : {}),
-    ...(title ? { title } : {}),
     ...(keyword ? { title: { $regex: keyword, $options: "i" } } : {}),
   };
   const notices = await Notice.find(query).skip(skip).limit(limit).exec();
