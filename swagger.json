@@ -231,19 +231,10 @@
             }
           },
           {
-            "name": "title",
-            "in": "query",
-            "description": "Title of notice",
-            "example": "Looking my pets",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "keyword",
             "in": "query",
             "description": "Keyword in title",
-            "example": "pets",
+            "example": "Looking my pets or pets",
             "schema": {
               "type": "string"
             }
