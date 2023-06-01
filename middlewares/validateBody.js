@@ -12,12 +12,15 @@ const validateBody = (validations) => {
       if (errors.isEmpty()) {
         return next();
       }
-      const errorMessages = errors.errors.map((error) => `${error.msg} in ${error.param}`);
-      next(new HttpError(400, errorMessages));
+      
+      const errorMessages = errors.errors.map((error) => `${error.msg} in field ${error.path}`);
+      console.log(errors.errors)
+      next(HttpError(400, errorMessages));
     } catch (error) {
       next(error);
     }
   };
-};
+    }
+
 
 module.exports = validateBody;
