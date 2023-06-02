@@ -10,6 +10,8 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.registerSchema), ctrl.login);
 
+router.get("/current", authenticate, ctrl.current);
+
 router.patch(
   "/:userId",
   authenticate,

@@ -37,7 +37,9 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -62,6 +64,22 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email is required and must be a valid email address in field email"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "409": {
             "description": "Email in use",
             "content": {}
@@ -71,7 +89,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User login",
         "parameters": [],
         "requestBody": {
@@ -103,9 +123,55 @@
         }
       }
     },
+    "/auth/current": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get user info by token after refreshing",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RegistranionResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "user's name",
+                          "pattern": "^[a-zA-Z]+$",
+                          "example": "Robert"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
     "/auth/{userId}": {
       "patch": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Update user's information",
         "operationId": "updateUser",
         "security": [
@@ -120,7 +186,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "update information about the user by id"
+              "description": "update information about the user by id",
+              "example": "646b2ec12353789047670bbe"
             }
           }
         ],
@@ -137,7 +204,8 @@
                     "properties": {
                       "avatar": {
                         "type": "string",
-                        "format": "binary"
+                        "format": "binary",
+                        "description": "user's photo"
                       }
                     }
                   }
@@ -181,7 +249,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Logout of the authorized user",
         "operationId": "logout",
         "security": [
@@ -201,7 +271,9 @@
     },
     "/notices/category/{category}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices by category",
         "operationId": "getNoticesByCategory",
         "parameters": [
@@ -210,18 +282,18 @@
             "in": "path",
             "required": true,
             "description": "One of: sell, lost-found, for-free",
-            "example": "sell",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "sell"
             }
           },
           {
             "name": "keyword",
             "in": "query",
-            "description": "Keyword in title",
-            "example": "Looking my pets or pets",
+            "description": "Keyword or keywords in title",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "Looking my pets or pets"
             }
           }
         ],
@@ -237,14 +309,29 @@
             }
           },
           "400": {
-            "description": "The file must be downloaded"
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "There is no notices by this request"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/notices": {
       "post": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Add new notice by category",
         "operationId": "addNotice",
         "security": [
@@ -252,7 +339,6 @@
             "Bearer": []
           }
         ],
-        "description": "Adds a new pet notice to the specified category",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -266,7 +352,7 @@
                     "properties": {
                       "file": {
                         "type": "string",
-                        "description": "Add the photo of your pet",
+                        "description": "Pet's photo",
                         "format": "binary"
                       }
                     }
@@ -293,7 +379,17 @@
                           "type": "string",
                           "description": "the photo of your pet",
                           "format": "uri",
-                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
+                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
+                        },
+                        "_id": {
+                          "type": "string",
+                          "description": "notice's id",
+                          "example": "64725801fd5941c1123cd20d"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "description": "owner's id",
+                          "example": "646b2ec12353789047670bbe"
                         }
                       }
                     }
@@ -339,7 +435,9 @@
     },
     "/notices/{noticeId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notice by ID",
         "operationId": "getNoticeById",
         "parameters": [
@@ -349,7 +447,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Get information about the notice by id"
+              "description": "Get information about the notice by id",
+              "example": "64725801fd5941c1123cd20d"
             }
           }
         ],
@@ -370,7 +469,22 @@
                           "type": "string",
                           "description": "the photo of your pet",
                           "format": "uri",
-                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684822680/pet_app/…"
+                          "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
+                        },
+                        "owner": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "description": "notice's id",
+                              "example": "646b2ec12353789047670bbe"
+                            },
+                            "phone": {
+                              "type": "string",
+                              "description": "user's phone",
+                              "example": "+380990000001"
+                            }
+                          }
                         }
                       }
                     }
@@ -385,7 +499,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Delete notice by ID",
         "security": [
           {
@@ -400,7 +516,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Delete the notice with the specified ID"
+              "example": "64725801fd5941c1123cd20d"
             }
           }
         ],
@@ -419,7 +535,9 @@
     },
     "/notices/favorite": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get user's favorite notices",
         "security": [
           {
@@ -449,7 +567,9 @@
     },
     "/notices/favorite/{noticeId}": {
       "patch": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Adds userID to the notice's favorite array",
         "security": [
           {
@@ -463,7 +583,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "64725801fd5941c1123cd20d"
             }
           }
         ],
@@ -493,7 +614,9 @@
         }
       },
       "delete": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Remove userID from the notice's favorite array",
         "security": [
           {
@@ -508,7 +631,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "ID of the notice to remove from favorite"
+              "example": "64725801fd5941c1123cd20d"
             }
           }
         ],
@@ -527,7 +650,9 @@
     },
     "/notices/user/{userId}": {
       "get": {
-        "tags": ["Notices"],
+        "tags": [
+          "Notices"
+        ],
         "summary": "Get notices of the authorized user",
         "operationId": "getNoticesByUser",
         "security": [
@@ -542,7 +667,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Get information about the user by id"
+              "example": "646b2ec12353789047670bbe"
             }
           }
         ],
@@ -565,7 +690,9 @@
     },
     "/pets": {
       "post": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Add your pet",
         "security": [
           {
@@ -586,7 +713,8 @@
                     "properties": {
                       "file": {
                         "type": "string",
-                        "format": "binary"
+                        "format": "binary",
+                        "description": "Pet's photo"
                       }
                     }
                   }
@@ -661,7 +789,9 @@
     },
     "/pets/{petId}": {
       "delete": {
-        "tags": ["Pets"],
+        "tags": [
+          "Pets"
+        ],
         "summary": "Delete a pet card",
         "security": [
           {
@@ -675,7 +805,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "description": "Delete with the pet ID"
+              "example": "646dd1170a177024f42168f2"
             }
           }
         ],
@@ -694,8 +824,11 @@
     },
     "/user": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get user info",
+        "parameters": [],
         "security": [
           {
             "Bearer": []
@@ -720,7 +853,9 @@
     },
     "/news": {
       "get": {
-        "tags": ["News"],
+        "tags": [
+          "News"
+        ],
         "summary": "Get news",
         "operationId": "getNews",
         "parameters": [
@@ -730,7 +865,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Search by keyword"
+              "example": "The Virtual Vet Will See You Meow"
             }
           }
         ],
@@ -756,7 +891,10 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["email", "birthday"],
+        "required": [
+          "email",
+          "birthday"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -793,7 +931,10 @@
       },
       "Authentification": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -805,8 +946,8 @@
           "password": {
             "type": "string",
             "description": "user's password",
-            "pattern": "^[a-zA-Z0-9]+$",
-            "example": "qwerty123"
+            "pattern": "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*_.-]+$",
+            "example": "Qwerty-123"
           }
         }
       },
@@ -816,7 +957,11 @@
           "category": {
             "type": "string",
             "description": "Category of notice",
-            "enum": ["sell", "lost-found", "for-free"],
+            "enum": [
+              "sell",
+              "lost-found",
+              "for-free"
+            ],
             "example": "sell or lost-found, or for-free"
           },
           "title": {
@@ -841,7 +986,7 @@
           "breed": {
             "type": "string",
             "description": "Pet's breed",
-            "pattern": "/^[a-zA-Z ]+$/",
+            "pattern": "/^[a-zA-Z]+$/",
             "minLength": 2,
             "maxLength": 16,
             "example": "Сhihuahua"
@@ -861,7 +1006,10 @@
           "sex": {
             "type": "string",
             "description": "Pet's sex",
-            "enum": ["male", "female"],
+            "enum": [
+              "male",
+              "female"
+            ],
             "example": "female"
           },
           "comments": {
@@ -885,7 +1033,12 @@
       },
       "Pet": {
         "type": "object",
-        "required": ["name", "birthday", "breed", "file"],
+        "required": [
+          "name",
+          "birthday",
+          "breed",
+          "file"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -923,6 +1076,7 @@
         "properties": {
           "imgUrl": {
             "type": "string",
+            "format": "uri",
             "example": "https://www.nytimes.com/images/2023/04/16/magazine/16mag-LOR/16mag-LOR-blog480.jpg"
           },
           "title": {
@@ -937,11 +1091,13 @@
           },
           "date": {
             "type": "string",
+            "format": "date",
             "description": "time and date of publication of the article",
             "example": "2023-04-11T09:00:18+0000"
           },
           "url": {
             "type": "string",
+            "format": "uri",
             "description": "time and date of publication of the article",
             "example": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html"
           }
@@ -956,25 +1112,21 @@
             "pattern": "^\\w+([-]?\\w+)*@\\w+([-]?\\w+)*(\\.\\w{2,3})+$",
             "example": "qwerty123@gmail.com",
             "format": "email"
-          },
-          "_id": {
-            "type": "string",
-            "description": "user's id",
-            "example": "646b2ec12353789047670bbe"
           }
         }
       },
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "description": "user's id",
             "example": "646b2ec12353789047670bbe"
           },
           "token": {
             "type": "string",
-            "description": "token for authorization"
+            "description": "token for authorization",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmUyNDUyN2YwNTNlYjJhNmNmODI4ZCIsImlhdCI6MTY4NTY5MzQzMywiZXhwIjoxNjg3NjgwNjMzfQ.KOnFi7IHH0MKM70rbtYSNIAmL5ZN_f4VBvMD6KFfpx0"
           }
         }
       },
@@ -1016,20 +1168,10 @@
                   "format": "uri",
                   "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
                 },
-                "owner": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "notice's id",
-                      "example": "646b2ec12353789047670bbe"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "description": "user's phone",
-                      "example": "+380990000001"
-                    }
-                  }
+                "_id": {
+                  "type": "string",
+                  "description": "notice's id",
+                  "example": "64725801fd5941c1123cd20d"
                 }
               }
             }
@@ -1054,7 +1196,7 @@
               }
             ]
           },
-          "pet": {
+          "pets": {
             "type": "array",
             "items": {
               "allOf": [
@@ -1068,6 +1210,10 @@
                       "type": "string",
                       "format": "uri",
                       "example": "https://res.cloudinary.com/dboarinns/image/upload/v1684859515/pet_app/pets/pet_app/pet.jpg"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "646dd1170a177024f42168f2"
                     }
                   }
                 }

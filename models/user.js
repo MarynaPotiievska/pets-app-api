@@ -35,7 +35,6 @@ const userSchema = new Schema(
         validator: validateData.validateDate,
         message: "Date of birth is invalid",
       },
-      default: "",
     },
     phone: {
       type: String,
@@ -43,7 +42,6 @@ const userSchema = new Schema(
         validator: validateData.validatePhone,
         message: "The phone number is invalid",
       },
-      default: "",
     },
     city: {
       type: String,
@@ -51,7 +49,6 @@ const userSchema = new Schema(
         validator: validateData.validateLocatione,
         message: 'Location should be in the format of "City".',
       },
-      default: "",
     },
     password: {
       type: String,
@@ -91,7 +88,7 @@ const registerSchema = [
     .isLength({ min: 6, max: 16 })
     .matches(passwordPattern)
     .withMessage(
-      "Password is required and must be 6-16 characters long, containing only letters and numbers"
+      "Password is required and must be 6-16 characters long. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     ),
 ];
 
