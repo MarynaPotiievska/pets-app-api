@@ -52,6 +52,11 @@ const login = async (req, res) => {
   });
 };
 
+const current = async (req, res) => {
+  const { name, email } = req.user;
+  res.json({ name, email });
+};
+
 const updateUser = async (req, res) => {
   const { userId } = req.params;
   const { isNewUser } = req.user;
@@ -64,11 +69,9 @@ const updateUser = async (req, res) => {
   if (req.file) {
     update.avatarURL = req.file.path;
   }
-  const result = await User.findByIdAndUpdate(
-    { _id: userId },
-    update,
-    { new: true }
-  ).select("-isNewUser -password");
+  const result = await User.findByIdAndUpdate({ _id: userId }, update, {
+    new: true,
+  }).select("-isNewUser -password");
 
   if (!result) {
     throw HttpError(404, "User not found");
@@ -86,6 +89,7 @@ const logout = async (req, res) => {
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
+  current: ctrlWrapper(current),
   updateUser: ctrlWrapper(updateUser),
   logout: ctrlWrapper(logout),
 };

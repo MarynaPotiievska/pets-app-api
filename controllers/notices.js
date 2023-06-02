@@ -12,6 +12,9 @@ const getNoticesByCategory = async (req, res) => {
     ...(keyword ? { title: { $regex: keyword, $options: "i" } } : {}),
   };
   const notices = await Notice.find(query).skip(skip).limit(limit).exec();
+  if (!notices ?? notices.length === 0) {
+    throw new Error(HttpError(400, "There is no notices by this request"));
+  }
   res.json(notices);
 };
 
@@ -19,7 +22,7 @@ const getNoticeById = async (req, res) => {
   const { noticeId: _id } = req.params;
   const result = await Notice.findById(_id).populate("owner", "phone").exec();
   if (!result) {
-    throw HttpError(404);
+    throw new Error(HttpError(404));
   }
   res.json(result);
 };
