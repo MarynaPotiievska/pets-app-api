@@ -21,7 +21,7 @@ const petSchema = new Schema(
       required: [true, "Name is required"],
     },
 
-    birthday: {
+    date: {
       type: String,
       validate: {
         validator: validateData.validateDate,
@@ -66,11 +66,11 @@ const schemas = [
     .notEmpty()
     .isLength({ min: 2, max: 16 })
     .matches(namePattern),
-  body("birthday")
+  body("date")
     .isString()
     .notEmpty()
     .matches(datePattern)
-    .withMessage("Birthday is required and must be in the format DD.MM.YYYY"),
+    .withMessage("Date is required and must be in the format DD.MM.YYYY"),
 
   body("breed")
     .isString()
