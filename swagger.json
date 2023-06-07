@@ -989,7 +989,7 @@
             "pattern": "/^[a-zA-Z]+$/",
             "minLength": 2,
             "maxLength": 16,
-            "example": "Сhihuahua"
+            "example": "Chihuahua"
           },
           "location": {
             "type": "string",

@@ -33,7 +33,6 @@ const addToFavorite = async (req, res) => {
   await Notice.findOneAndUpdate(
     { _id: noticeId },
     { $push: { favorite: owner } },
-    owner,
     {
       new: true,
     }
@@ -64,7 +63,7 @@ const removeFromFavorite = async (req, res) => {
     notice.favorite.splice(index, 1);
   }
   await notice.save();
-  res.status(204);
+  res.sendStatus(204);
 };
 
 const addNotice = async (req, res) => {
