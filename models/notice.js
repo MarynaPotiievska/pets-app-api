@@ -112,7 +112,7 @@ const schema = [
     .isLength({ min: 2, max: 16 }),
   body("category").isIn(["sell", "lost-found", "for-free"]).notEmpty(),
   body("sex").isString().notEmpty().isIn(["male", "female"]),
-  body("comments").isString().isLength({ min: 8, max: 120 }),
+  body("comments").optional().isString().isLength({ min: 8, max: 120 }),
   body("location")
     .isString()
     .notEmpty()
