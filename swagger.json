@@ -961,8 +961,7 @@
               "sell",
               "lost-found",
               "for-free"
-            ],
-            "example": "sell or lost-found, or for-free"
+            ]
           },
           "title": {
             "type": "string",
