@@ -35,8 +35,8 @@ router.delete(
 router.post(
   "/",
   authenticate,
-  validateBody(schema),
   upload.single("file"),
+  validateBody(schema),
   ctrl.addNotice
 );
 
